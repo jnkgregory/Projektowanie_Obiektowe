@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.*;
+import java.time.LocalDate;
+import java.time.Period;
 
 interface Hotel
 {    
@@ -44,7 +46,7 @@ public class SheratonHotel implements Hotel
     @Override
     public void addRoom(String name, int nOfBeds)
     {
-        RoomInfo newRoom = new Room(name, nOfBeds, 0);
+        RoomInfo newRoom = new Room(name, nOfBeds);
         hotelRooms.put(name, newRoom);
     }
 
@@ -57,14 +59,14 @@ public class SheratonHotel implements Hotel
     @Override
     public List<ReservationInfo> findFreeRooms(Period period, List<Integer> rooms)
     {
-        return null;
+        return reservations;
     }
 
     @Override
     public boolean makeReservation(Client client, ReservationInfo request)
     {
-        return false;
+        boolean BOOKED = false;
+
+        return BOOKED;
     }
-
-
 }
