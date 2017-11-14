@@ -5,6 +5,7 @@ class Main
         System.out.println("Dzialam!");
 
         SheratonHotel hotel = new SheratonHotel();
-        hotel.deleteRoom("A");
+        hotel.addRoom("A", 3);
+        hotel.deleteRoom("B");
     }
 }

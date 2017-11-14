@@ -32,8 +32,8 @@ class Reservation implements  ReservationInfo
 
     public Reservation(Period period, List<RoomInfo> roomInfo)
     {
-        period = period;
-        roomInfo = roomInfo;
+        this.period = period;
+        this.roomInfo = roomInfo;
     }
 
     @java.lang.Override
@@ -70,11 +70,11 @@ class Room implements RoomInfo
     int nOfBeds;
     int peopleAccomodated;
 
-    public Room(String roomName, int nOfBeds, int peopleAccomodated)
+    public Room(String roomName, int nOfBeds)
     {
-        roomName = roomName;
-        nOfBeds = nOfBeds;
-        peopleAccomodated = 0;
+        this.roomName = roomName;
+        this.nOfBeds = nOfBeds;
+        this.peopleAccomodated = 0;
     }
 
     @Override
@@ -111,8 +111,8 @@ public class SheratonHotel implements Hotel
 
     public SheratonHotel()
     {
-        hotelRooms = new TreeMap<String, RoomInfo>();
-        reservations = new ArrayList<ReservationInfo>();
+        this.hotelRooms = new TreeMap<String, RoomInfo>();
+        this.reservations = new ArrayList<ReservationInfo>();
     }
 
     @Override
@@ -130,13 +130,14 @@ public class SheratonHotel implements Hotel
     @Override
     public void addRoom(String name, int nOfBeds)
     {
-        System.out.println("addRoom");
+        RoomInfo newRoom = new Room(name, nOfBeds);
+        hotelRooms.put(name, newRoom);
     }
 
     @Override
     public void deleteRoom(String name)
     {
-        System.out.println("deleteRoom");
+        hotelRooms.remove(name);
     }
 
     @Override
