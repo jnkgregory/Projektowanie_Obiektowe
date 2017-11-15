@@ -1,15 +1,19 @@
+import java.util.*;
+
 //nazwa pokoju i ilość ludzi w nim zakwaterowanych
 interface RoomInfo
 {
     String getRoomName();
     int getnOfBeds();
+    ArrayList<ReservationInfo> getReservations();
 }
 
 
-class Room implements RoomInfo
+public class Room implements RoomInfo
 {
     String roomName;
     int nOfBeds;
+    ArrayList<ReservationInfo> reservations;
 
     public Room(String roomName, int nOfBeds)
     {
@@ -27,5 +31,15 @@ class Room implements RoomInfo
     public int getnOfBeds()
     {
         return nOfBeds;
+    }
+
+    public ArrayList<ReservationInfo> getReservations()
+    {
+        return reservations;
+    }
+
+    public void addReservation(ReservationInfo reservation)
+    {
+        reservations.add( reservation );
     }
 }

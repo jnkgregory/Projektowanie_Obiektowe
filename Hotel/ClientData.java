@@ -4,7 +4,7 @@ interface Client
     String getEmail();
 }
 
-class ClientData implements Client
+public class ClientData implements Client
 {
     String name;
     String email;

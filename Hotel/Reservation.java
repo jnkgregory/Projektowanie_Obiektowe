@@ -4,26 +4,27 @@ import java.time.Period;
 
 interface ReservationInfo
 {
-    Period getPeriod();
+    RPeriod getRPeriod();
     List<RoomInfo> getRoomsInfo();
+    int getBedsRequested();
 }
 
 
-class Reservation implements  ReservationInfo
+public class Reservation implements  ReservationInfo
 {
-    Period period;
+    RPeriod period;
     List<RoomInfo> roomInfo;
-    int howManyBeds;
+    int bedsRequested;
 
-    public Reservation(Period period, List<RoomInfo> roomInfo, int howManyBeds)
+    public Reservation(RPeriod period, List<RoomInfo> roomInfo, int bedsRequested)
     {
         this.period = period;
         this.roomInfo = roomInfo;
-        this.howManyBeds = howManyBeds;
+        this.bedsRequested = bedsRequested;
     }
 
     @java.lang.Override
-    public Period getPeriod()
+    public RPeriod getRPeriod()
     {
         return period;
     }
@@ -34,8 +35,9 @@ class Reservation implements  ReservationInfo
         return roomInfo;
     }
 
-    public int getHowManyBeds()
+    @Override
+    public int getBedsRequested()
     {
-        return howManyBeds;
+        return bedsRequested;
     }
 }

@@ -67,6 +67,12 @@ public class SheratonHotel implements Hotel
     {
         boolean BOOKED = false;
 
+        int requestedBeds = request.getBedsRequested();
+        LocalDate start = request.getRPeriod().getStartDate();
+        Period period = request.getRPeriod().getPeriod();
+
+
+
         return BOOKED;
     }
 }
