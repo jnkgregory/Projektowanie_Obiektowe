@@ -4,40 +4,49 @@ import java.time.Period;
 
 interface ReservationInfo
 {
-    RPeriod getRPeriod();
-    List<RoomInfo> getRoomsInfo();
+    LocalDate getStart();
+    LocalDate getEnd();
     int getBedsRequested();
+    Client getClient();
 }
 
 
 public class Reservation implements  ReservationInfo
 {
-    RPeriod period;
-    List<RoomInfo> roomInfo;
+    LocalDate start;
+    LocalDate end;
     int bedsRequested;
+    Client client;
 
-    public Reservation(RPeriod period, List<RoomInfo> roomInfo, int bedsRequested)
+    public Reservation(LocalDate start, LocalDate end, int bedsRequested, Client client)
     {
-        this.period = period;
-        this.roomInfo = roomInfo;
+        this.start = start;
+        this.end = end;
         this.bedsRequested = bedsRequested;
-    }
-
-    @java.lang.Override
-    public RPeriod getRPeriod()
-    {
-        return period;
+        this.client = client;
     }
 
     @Override
-    public List<RoomInfo> getRoomsInfo()
+    public LocalDate getStart()
     {
-        return roomInfo;
+        return start;
+    }
+
+    @Override
+    public LocalDate getEnd()
+    {
+        return end;
     }
 
     @Override
     public int getBedsRequested()
     {
         return bedsRequested;
+    }
+
+    @Override
+    public Client getClient()
+    {
+        return client;
     }
 }
