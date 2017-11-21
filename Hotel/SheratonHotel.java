@@ -12,7 +12,7 @@ interface Hotel
     void addRoom(String name, int nOfBeds);
     void addRoom(String name, RoomInfo room);
     void deleteRoom(String name);
-    
+
     boolean makeReservation(Client client,  ReservationInfo request);
     void printRoomsInfo();
 }   
@@ -23,11 +23,13 @@ public class SheratonHotel implements Hotel
     TreeMap<String, RoomInfo> hotelRooms;
     ArrayList<ReservationInfo> reservations;
 
+
     public SheratonHotel()
     {
         this.hotelRooms = new TreeMap<String, RoomInfo>();
         this.reservations = new ArrayList<ReservationInfo>();
     }
+
 
     @Override
     public void loadRooms(Reader reader)
@@ -35,11 +37,13 @@ public class SheratonHotel implements Hotel
 
     }
 
+
     @Override
     public void saveRooms(Writer writer)
     {
 
     }
+
 
     @Override
     public void printRoomsInfo()
@@ -71,6 +75,7 @@ public class SheratonHotel implements Hotel
         }
     }
 
+
     @Override
     public void addRoom(String name, int nOfBeds)
     {
@@ -78,11 +83,13 @@ public class SheratonHotel implements Hotel
         hotelRooms.put(name, newRoom);
     }
 
+
     @Override
     public void addRoom(String name, RoomInfo room)
     {
         hotelRooms.put(name, room);
     }
+
 
     @Override
     public void deleteRoom(String name)
@@ -90,12 +97,44 @@ public class SheratonHotel implements Hotel
         hotelRooms.remove(name);
     }
 
+    // Tu trzeba bedzie sprawdzac start i czas trwania (Period).
+    ArrayList<String> findFreeRooms(ReservationInfo newReservation)
+    {
+        ArrayList<String> roomsID = new ArrayList<String>();
+
+        for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() )
+        {
+            ArrayList<ReservationInfo> thisRoomReservations = room.getValue().getReservations();
+            if(thisRoomReservations.size() == 0 )
+            {
+                roomsID.add( room.getKey() );
+            }
+            if( thisRoomReservations != null && thisRoomReservations.size() > 0 )
+            {
+                for (ReservationInfo existingReservation : thisRoomReservations)
+                {
+                    boolean goodPeriod = ! ( newReservation.getStart().isAfter( existingReservation.getStart() ) &&
+                                             newReservation.getEnd().isBefore( existingReservation.getEnd() ) );
+                    System.out.println("[ findFreeRooms ] DEBUG: Rezerwacja: "+existingReservation.getStart()+", goodPeriod: "+goodPeriod);
+                    if( goodPeriod )
+                    {
+                        roomsID.add(room.getKey());
+                    }
+                }
+            }
+        }
+
+        return roomsID;
+    }
+
+
     @Override
     public boolean makeReservation(Client client, ReservationInfo request)
     {
         boolean BOOKED = false;
 
         int requestedBeds = request.getBedsRequested();
+
 
         return BOOKED;
     }

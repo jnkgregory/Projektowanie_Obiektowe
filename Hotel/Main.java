@@ -1,14 +1,13 @@
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
+import java.util.*;
 
 class Main
 {
     public static void main(String[] args)
     {
         System.out.println("\n");
-
-        System.out.println("[ main ] Dzialam!");
 
         SheratonHotel hotel = new SheratonHotel();
         hotel.addRoom("A", 3);
@@ -23,15 +22,18 @@ class Main
                                                        4,
                                                        client);
 
-        System.out.println( "[ main ] Reservation. Start:"+reservation.getStart()+", stop: "+reservation.getEnd() );
-
-        System.out.println("[ main ] Client. Type: "+client.getType());
-
         RoomInfo newRoom = new Room("E", 5);
         newRoom.addReservation(reservation);
         hotel.addRoom("E", newRoom);
 
         hotel.printRoomsInfo();
+
+        ArrayList<String> freeRooms = hotel.findFreeRooms( reservation );
+        System.out.println("[ main ] Wypis rezerwacji: ");
+        for(String roomID : freeRooms )
+        {
+            System.out.println("[ main ] ID wolnego pokoju: "+roomID);
+        }
 
         System.out.println("\n");
     }
