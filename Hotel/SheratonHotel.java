@@ -10,9 +10,11 @@ interface Hotel
     
     
     void addRoom(String name, int nOfBeds);
+    void addRoom(String name, RoomInfo room);
     void deleteRoom(String name);
     
     boolean makeReservation(Client client,  ReservationInfo request);
+    void printRoomsInfo();
 }   
 
 
@@ -40,10 +42,45 @@ public class SheratonHotel implements Hotel
     }
 
     @Override
+    public void printRoomsInfo()
+    {
+        for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() )
+        {
+            System.out.println("[ printRoomsInfo ] INFO: Room name: "+room.getKey()+", No of beds: "
+                               +room.getValue().getnOfBeds());
+
+            System.out.println("[ printRoomsInfo ] INFO: Room " +room.getKey()+" reservations: ");
+
+            ArrayList<ReservationInfo> thisRoomReservations = room.getValue().getReservations();
+            if( thisRoomReservations != null && thisRoomReservations.size() > 0 )
+            {
+                for (ReservationInfo reservation : thisRoomReservations)
+                {
+                    System.out.println("\tRESERVATION");
+                    System.out.println("\t\tStart: " + reservation.getStart() +
+                            "\n\t\tEnd: " + reservation.getEnd() +
+                            "\n\t\tNo of beds: " + reservation.getBedsRequested() +
+                            "\n\t\tClient: " + reservation.getClient().getEmail());
+                }
+            }
+            else
+            {
+                System.out.println("\t[ printRoomsInfo ] INFO: Room "+room.getKey()+" has no reservations.");
+            }
+        }
+    }
+
+    @Override
     public void addRoom(String name, int nOfBeds)
     {
         RoomInfo newRoom = new Room(name, nOfBeds);
         hotelRooms.put(name, newRoom);
+    }
+
+    @Override
+    public void addRoom(String name, RoomInfo room)
+    {
+        hotelRooms.put(name, room);
     }
 
     @Override

@@ -6,6 +6,7 @@ interface RoomInfo
     String getRoomName();
     int getnOfBeds();
     ArrayList<ReservationInfo> getReservations();
+    void addReservation(ReservationInfo reservation);
 }
 
 
@@ -19,6 +20,7 @@ public class Room implements RoomInfo
     {
         this.roomName = roomName;
         this.nOfBeds = nOfBeds;
+        this.reservations = new ArrayList<ReservationInfo>();
     }
 
     @Override
@@ -33,11 +35,13 @@ public class Room implements RoomInfo
         return nOfBeds;
     }
 
+    @Override
     public ArrayList<ReservationInfo> getReservations()
     {
         return reservations;
     }
 
+    @Override
     public void addReservation(ReservationInfo reservation)
     {
         reservations.add( reservation );
