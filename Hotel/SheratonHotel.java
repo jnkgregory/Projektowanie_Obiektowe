@@ -46,10 +46,10 @@ public class SheratonHotel implements Hotel
     {
         for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() )
         {
-            System.out.println("[ printRoomsInfo ] INFO: Room name: "+room.getKey()+", No of beds: "
-                               +room.getValue().getnOfBeds());
+            System.out.println("[ printRoomsInfo ] INFO: Room name: " + room.getKey() +
+                               ", No of beds: " + room.getValue().getnOfBeds());
 
-            System.out.println("[ printRoomsInfo ] INFO: Room " +room.getKey()+" reservations: ");
+            System.out.println("[ printRoomsInfo ] INFO: Room " + room.getKey() + " reservations: ");
 
             ArrayList<ReservationInfo> thisRoomReservations = room.getValue().getReservations();
             if( thisRoomReservations != null && thisRoomReservations.size() > 0 )
@@ -58,9 +58,10 @@ public class SheratonHotel implements Hotel
                 {
                     System.out.println("\tRESERVATION");
                     System.out.println("\t\tStart: " + reservation.getStart() +
-                            "\n\t\tEnd: " + reservation.getEnd() +
-                            "\n\t\tNo of beds: " + reservation.getBedsRequested() +
-                            "\n\t\tClient: " + reservation.getClient().getEmail());
+                                       "\n\t\tEnd: " + reservation.getEnd() +
+                                       "\n\t\tNo of beds: " + reservation.getBedsRequested() +
+                                       "\n\t\tClient: " + reservation.getClient().getEmail() +
+                                       " ("+reservation.getClient().getType()+")");
                 }
             }
             else
