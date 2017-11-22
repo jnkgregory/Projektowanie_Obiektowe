@@ -12,6 +12,9 @@ import org.joda.time.Interval;
 // URUCHAMIANIE:
 // java -cp /.../Projektowanie_Obiektowe/Hotel/joda-time-2.9.9.jar: Main
 
+// LINK:
+// https://stackoverflow.com/questions/9395207/how-to-include-jar-files-with-java-file-and-compile-in-command-prompt
+
 public class Main
 {
     public static void main(String[] args)
