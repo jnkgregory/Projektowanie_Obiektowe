@@ -1,11 +1,13 @@
 import java.util.*;
 import java.time.LocalDate;
 import java.time.Period;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
 interface ReservationInfo
 {
-    LocalDate getStart();
-    LocalDate getEnd();
+    DateTime getStart();
+    DateTime getEnd();
     int getBedsRequested();
     Client getClient();
 }
@@ -13,12 +15,12 @@ interface ReservationInfo
 
 public class Reservation implements  ReservationInfo
 {
-    LocalDate start;
-    LocalDate end;
+    DateTime start;
+    DateTime end;
     int bedsRequested;
     Client client;
 
-    public Reservation(LocalDate start, LocalDate end, int bedsRequested, Client client)
+    public Reservation(DateTime start, DateTime end, int bedsRequested, Client client)
     {
         this.start = start;
         this.end = end;
@@ -27,13 +29,13 @@ public class Reservation implements  ReservationInfo
     }
 
     @Override
-    public LocalDate getStart()
+    public DateTime getStart()
     {
         return start;
     }
 
     @Override
-    public LocalDate getEnd()
+    public DateTime getEnd()
     {
         return end;
     }

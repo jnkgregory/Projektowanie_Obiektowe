@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.*;
 import java.time.LocalDate;
 import java.time.Period;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
 interface Hotel
 {    
@@ -97,7 +99,7 @@ public class SheratonHotel implements Hotel
         hotelRooms.remove(name);
     }
 
-    // Tu trzeba bedzie sprawdzac start i czas trwania (Period).
+
     ArrayList<String> findFreeRooms(ReservationInfo newReservation)
     {
         ArrayList<String> roomsID = new ArrayList<String>();
@@ -113,13 +115,16 @@ public class SheratonHotel implements Hotel
             {
                 for (ReservationInfo existingReservation : thisRoomReservations)
                 {
-                    boolean goodPeriod = ! ( newReservation.getStart().isAfter( existingReservation.getStart() ) &&
-                                             newReservation.getEnd().isBefore( existingReservation.getEnd() ) );
-                    System.out.println("[ findFreeRooms ] DEBUG: Rezerwacja: "+existingReservation.getStart()+", goodPeriod: "+goodPeriod);
-                    if( goodPeriod )
+                    Interval existingReservationIntv = new Interval( existingReservation.getStart(),
+                                                                     existingReservation.getEnd() );
+                    Interval newReservationIntv = new Interval( newReservation.getStart(), newReservation.getEnd() );
+
+                    System.out.println("[ findFreeRooms ] DEBUG: existingReservation "+existingReservation.getStart());
+                    if( ! existingReservationIntv.overlaps( newReservationIntv) )
                     {
                         roomsID.add(room.getKey());
                     }
+                    else { System.out.println("[ findFreeRooms ] DEBUG: Pokoj "+room.getKey()+" zajety.");}
                 }
             }
         }
@@ -134,6 +139,17 @@ public class SheratonHotel implements Hotel
         boolean BOOKED = false;
 
         int requestedBeds = request.getBedsRequested();
+        ArrayList<String> roomsWithFreeTimeSlot = findFreeRooms( request );
+
+        if( roomsWithFreeTimeSlot.size() == 0 )
+        {
+            //return BOOKED;
+        }
+
+        for( String roomID: roomsWithFreeTimeSlot )
+        {
+            System.out.println("[ makeReservation ] DEBUG: Room with free timeslot: "+roomID+", nOfBeds: "+hotelRooms.get(roomID).getnOfBeds() );
+        }
 
 
         return BOOKED;

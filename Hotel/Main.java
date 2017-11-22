@@ -30,8 +30,8 @@ public class Main
 
         Client client = new ClientData("Zenon", "zenon@wp.pl", clientType.STUDENT);
 
-        ReservationInfo reservation = new Reservation( LocalDate.of(2017, Month.DECEMBER, 5),
-                                                       LocalDate.of(2017, Month.DECEMBER, 14),
+        ReservationInfo reservation = new Reservation( new DateTime(2017, 12, 5, 0, 0, 0, 0),
+                                                       new DateTime(2017, 12, 14, 0, 0, 0, 0),
                                                        4,
                                                        client);
 
@@ -45,24 +45,10 @@ public class Main
         System.out.println("[ main ] Wypis rezerwacji: ");
         for(String roomID : freeRooms )
         {
-            System.out.println("[ main ] ID wolnego pokoju: "+roomID);
+            System.out.println("\t[ main ] ID wolnego pokoju: "+roomID);
         }
 
-        // Test Interval
-        DateTime start_first = new DateTime(2017, 12, 5, 0, 0, 0, 0);
-        DateTime end_first = new DateTime(2017, 12, 14, 0, 0, 0, 0);
-
-        DateTime start_sec = new DateTime(2017, 12, 11, 0, 0, 0, 0);
-        DateTime end_sec = new DateTime(2017, 12, 17, 0, 0, 0, 0);
-
-        // Trzeba ściągnąć joda-time i includować go przy kompilacji.
-        // javac -classpath "/path/to/jar1.jar;/parh/to/jar2.jar" *java
-        Interval interval_first = new Interval(start_first, end_first);
-        Interval interval_sec = new Interval(start_sec, end_sec);
-
-        System.out.println("[ main ] interval_first overlaps interval_sec: "
-                + interval_first.overlaps(interval_sec));
-
+        hotel.makeReservation( client, reservation );
 
         System.out.println("\n");
     }
