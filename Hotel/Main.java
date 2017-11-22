@@ -14,6 +14,7 @@ import org.joda.time.Interval;
 
 // LINK:
 // https://stackoverflow.com/questions/9395207/how-to-include-jar-files-with-java-file-and-compile-in-command-prompt
+// https://stackoverflow.com/questions/18938152/check-if-two-date-periods-overlap
 
 public class Main
 {
