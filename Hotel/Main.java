@@ -2,8 +2,17 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.util.*;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
-class Main
+
+// KOMPILACJA:
+// javac -classpath "/.../Projektowanie_obiektowe/Hotel/joda-time-2.9.9.jar:lib/*;." *java
+// ----------
+// URUCHAMIANIE:
+// java -cp /.../Projektowanie_Obiektowe/Hotel/joda-time-2.9.9.jar: Main
+
+public class Main
 {
     public static void main(String[] args)
     {
@@ -34,6 +43,22 @@ class Main
         {
             System.out.println("[ main ] ID wolnego pokoju: "+roomID);
         }
+
+        // Test Interval
+        DateTime start_first = new DateTime(2017, 12, 5, 0, 0, 0, 0);
+        DateTime end_first = new DateTime(2017, 12, 14, 0, 0, 0, 0);
+
+        DateTime start_sec = new DateTime(2017, 12, 11, 0, 0, 0, 0);
+        DateTime end_sec = new DateTime(2017, 12, 17, 0, 0, 0, 0);
+
+        // Trzeba ściągnąć joda-time i includować go przy kompilacji.
+        // javac -classpath "/path/to/jar1.jar;/parh/to/jar2.jar" *java
+        Interval interval_first = new Interval(start_first, end_first);
+        Interval interval_sec = new Interval(start_sec, end_sec);
+
+        System.out.println("[ main ] interval_first overlaps interval_sec: "
+                + interval_first.overlaps(interval_sec));
+
 
         System.out.println("\n");
     }
