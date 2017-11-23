@@ -100,7 +100,7 @@ public class SheratonHotel implements Hotel
     }
 
 
-    ArrayList<String> findFreeRooms(ReservationInfo newReservation)
+    private ArrayList<String> findFreeRooms(ReservationInfo newReservation)
     {
         ArrayList<String> roomsID = new ArrayList<String>();
 
