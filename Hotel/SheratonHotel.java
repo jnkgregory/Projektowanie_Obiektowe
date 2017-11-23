@@ -162,10 +162,16 @@ public class SheratonHotel implements Hotel
 
         }
 
-        System.out.println("[ makeReservation ] DEBUG: collectedBeds: "+collectedBeds);
-        for(String roomID : roomsToReserve)
+        if(collectedBeds >= requestedBeds )
         {
-            System.out.println("[ makeReservation ] DEBUG: roomsToReserve: "+roomID);
+            System.out.println("[ makeReservation ] DEBUG: collectedBeds: " + collectedBeds);
+            for (String roomID : roomsToReserve)
+            {
+                System.out.println("[ makeReservation ] DEBUG: roomsToReserve: " + roomID);
+                hotelRooms.get(roomID).addReservation(request);
+            }
+
+            BOOKED = true;
         }
 
 

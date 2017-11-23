@@ -48,7 +48,10 @@ public class Main
         //    System.out.println("\t[ main ] ID wolnego pokoju: "+roomID);
         //}
 
-        hotel.makeReservation( client, reservation );
+        boolean reserved = hotel.makeReservation( client, reservation );
+
+        System.out.println("\n[ main ] DEBUG: Status dokonania rezerwacji: "+reserved);
+        hotel.printRoomsInfo();
 
         System.out.println("\n");
     }
