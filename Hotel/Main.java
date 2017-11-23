@@ -41,12 +41,12 @@ public class Main
 
         hotel.printRoomsInfo();
 
-        ArrayList<String> freeRooms = hotel.findFreeRooms( reservation );
-        System.out.println("[ main ] Wypis rezerwacji: ");
-        for(String roomID : freeRooms )
-        {
-            System.out.println("\t[ main ] ID wolnego pokoju: "+roomID);
-        }
+        //ArrayList<String> freeRooms = hotel.findFreeRooms( reservation );
+        //System.out.println("[ main ] Wypis rezerwacji: ");
+        //for(String roomID : freeRooms )
+        //{
+        //    System.out.println("\t[ main ] ID wolnego pokoju: "+roomID);
+        //}
 
         hotel.makeReservation( client, reservation );
 

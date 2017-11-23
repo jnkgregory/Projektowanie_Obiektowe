@@ -9,6 +9,6 @@ COMPILED_FILES="*java"
 
 FULL_COMPILE_CMD='${COMPILER} "${CURRENT_DIR}/${JODA_JAR}${SUFFIX_OPTIONS}" ${COMPILED_FILES}'
 
-echo "[ compile.sh ] INFO: Running ${FULL_COMPILE_CMD}"
+eval echo "[ compile.sh ] INFO: Running ${FULL_COMPILE_CMD}"
 
 eval ${FULL_COMPILE_CMD}

@@ -67,7 +67,7 @@ public class SheratonHotel implements Hotel
                                        "\n\t\tEnd: " + reservation.getEnd() +
                                        "\n\t\tNo of beds: " + reservation.getBedsRequested() +
                                        "\n\t\tClient: " + reservation.getClient().getEmail() +
-                                       " ("+reservation.getClient().getType()+")");
+                                       " ("+reservation.getClient().getType()+")\n");
                 }
             }
             else
@@ -141,6 +141,9 @@ public class SheratonHotel implements Hotel
         int requestedBeds = request.getBedsRequested();
         ArrayList<String> roomsWithFreeTimeSlot = findFreeRooms( request );
 
+        int collectedBeds = 0;
+        ArrayList<String> roomsToReserve = new ArrayList<String>();
+
         if( roomsWithFreeTimeSlot.size() == 0 )
         {
             //return BOOKED;
@@ -148,7 +151,21 @@ public class SheratonHotel implements Hotel
 
         for( String roomID: roomsWithFreeTimeSlot )
         {
-            System.out.println("[ makeReservation ] DEBUG: Room with free timeslot: "+roomID+", nOfBeds: "+hotelRooms.get(roomID).getnOfBeds() );
+            System.out.println("[ makeReservation ] DEBUG: Room with free timeslot: "+roomID+", nOfBeds: "
+                    +hotelRooms.get(roomID).getnOfBeds() );
+
+            if( collectedBeds >= requestedBeds ) break;
+
+            collectedBeds = collectedBeds + hotelRooms.get(roomID).getnOfBeds();
+            roomsToReserve.add(roomID);
+
+
+        }
+
+        System.out.println("[ makeReservation ] DEBUG: collectedBeds: "+collectedBeds);
+        for(String roomID : roomsToReserve)
+        {
+            System.out.println("[ makeReservation ] DEBUG: roomsToReserve: "+roomID);
         }
 
 
