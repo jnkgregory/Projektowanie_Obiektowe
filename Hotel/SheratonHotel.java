@@ -128,10 +128,12 @@ public class SheratonHotel implements Hotel
     @Override
     public void printHolidayPriceModifiers()
     {
+        System.out.println("[ printHolidayPriceModifiers ] INFO: Holidays price modifiers:");
+
         for( Map.Entry<String, Double> holiday : holidayPriceModifiers.entrySet() )
         {
-            System.out.println("[ printHolidayPriceModifiers ] INFO: Holiday: " + holiday.getKey() +
-                               ", price modifier: " + holiday.getValue());
+            System.out.println("\tHoliday: " + holiday.getKey() +
+                               "\n\tPrice Modifier: " + holiday.getValue() + "\n");
         }
     }
 

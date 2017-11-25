@@ -53,11 +53,14 @@ public class Main
         System.out.println("\n[ main ] DEBUG: Status dokonania rezerwacji: "+reserved);
         hotel.printRoomsInfo();
 
-        TreeMap<String, Double> testMap = new TreeMap<String, Double>();
-        testMap.put("A", 1.5);
-        System.out.println("Test nadpisywania w TreeMap: " + testMap.get("A"));
-        testMap.put("A", 2.5);
-        System.out.println("2. Test nadpisywania w TreeMap: " + testMap.get("A"));
+        hotel.addHolidayPriceModifier("Easter", 1.5);
+        hotel.addHolidayPriceModifier("Majowy Weekend", 1.8);
+        hotel.addHolidayPriceModifier("Boże_Ciało", 1.4);
+        hotel.addHolidayPriceModifier("Boże_Narodzenie", 2.5);
+        hotel.addHolidayPriceModifier("Sylwester", 4.5);
+
+        System.out.println("\n[ main ] DEBUG: Wypis modyfikatorów cen za okresy świąteczne.");
+        hotel.printHolidayPriceModifiers();
 
         System.out.println("\n");
     }
