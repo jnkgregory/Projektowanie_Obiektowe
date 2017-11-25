@@ -23,10 +23,10 @@ public class Main
         System.out.println("\n");
 
         SheratonHotel hotel = new SheratonHotel();
-        hotel.addRoom("A", 3);
-        hotel.addRoom("B", 3);
-        hotel.addRoom("C", 3);
-        hotel.addRoom("D", 3);
+        hotel.addRoom("A", 3, roomStandard.NORMAL);
+        hotel.addRoom("B", 3, roomStandard.NORMAL);
+        hotel.addRoom("C", 3, roomStandard.HIGH);
+        hotel.addRoom("D", 3, roomStandard.LUXURY);
 
         Client client = new ClientData("Zenon", "zenon@wp.pl", clientType.STUDENT);
 
@@ -35,7 +35,7 @@ public class Main
                                                        4,
                                                        client);
 
-        RoomInfo newRoom = new Room("E", 5);
+        RoomInfo newRoom = new Room("E", 5, roomStandard.PRESIDENT);
         newRoom.addReservation(reservation);
         hotel.addRoom("E", newRoom);
 

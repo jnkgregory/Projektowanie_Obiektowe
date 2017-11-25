@@ -11,9 +11,11 @@ interface Hotel
     void saveRooms(Writer writer);
     
     
-    void addRoom(String name, int nOfBeds);
+    void addRoom(String name, int nOfBeds, roomStandard standard);
     void addRoom(String name, RoomInfo room);
     void deleteRoom(String name);
+
+    void addHoliday(String name, DateTime start, DateTime end);
 
     boolean makeReservation(Client client,  ReservationInfo request);
     void printRoomsInfo();
@@ -24,12 +26,14 @@ public class SheratonHotel implements Hotel
 {
     TreeMap<String, RoomInfo> hotelRooms;
     ArrayList<ReservationInfo> reservations;
+    TreeMap<String, Interval> holidays;
 
 
     public SheratonHotel()
     {
         this.hotelRooms = new TreeMap<String, RoomInfo>();
         this.reservations = new ArrayList<ReservationInfo>();
+        this.holidays = new TreeMap<String, Interval>();
     }
 
 
@@ -53,7 +57,8 @@ public class SheratonHotel implements Hotel
         for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() )
         {
             System.out.println("[ printRoomsInfo ] INFO: Room name: " + room.getKey() +
-                               ", No of beds: " + room.getValue().getnOfBeds());
+                               ", No of beds: " + room.getValue().getnOfBeds() +
+                               ", standard: " + room.getValue().getRoomStandard() );
 
             System.out.println("[ printRoomsInfo ] INFO: Room " + room.getKey() + " reservations: ");
 
@@ -79,9 +84,9 @@ public class SheratonHotel implements Hotel
 
 
     @Override
-    public void addRoom(String name, int nOfBeds)
+    public void addRoom(String name, int nOfBeds, roomStandard standard)
     {
-        RoomInfo newRoom = new Room(name, nOfBeds);
+        RoomInfo newRoom = new Room(name, nOfBeds, standard);
         hotelRooms.put(name, newRoom);
     }
 
@@ -97,6 +102,15 @@ public class SheratonHotel implements Hotel
     public void deleteRoom(String name)
     {
         hotelRooms.remove(name);
+    }
+
+
+    @Override
+    public void addHoliday(String name, DateTime start, DateTime end)
+    {
+        Interval holidayPeriod = new Interval(start, end);
+
+        holidays.put(name, holidayPeriod);
     }
 
 
