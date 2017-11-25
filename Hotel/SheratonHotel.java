@@ -16,6 +16,8 @@ interface Hotel
     void deleteRoom(String name);
 
     void addHoliday(String name, DateTime start, DateTime end);
+    void addHolidayPriceModifier(String holidayName, double priceModifier);
+    void printHolidayPriceModifiers();
 
     boolean makeReservation(Client client,  ReservationInfo request);
     void printRoomsInfo();
@@ -27,6 +29,7 @@ public class SheratonHotel implements Hotel
     TreeMap<String, RoomInfo> hotelRooms;
     ArrayList<Booking> bookedReservations;
     TreeMap<String, Interval> holidays;
+    TreeMap<String, Double> holidayPriceModifiers;
 
 
     public SheratonHotel()
@@ -34,6 +37,7 @@ public class SheratonHotel implements Hotel
         this.hotelRooms = new TreeMap<String, RoomInfo>();
         this.bookedReservations = new ArrayList<Booking>();
         this.holidays = new TreeMap<String, Interval>();
+        this.holidayPriceModifiers = new TreeMap<String, Double>();
     }
 
 
@@ -111,6 +115,24 @@ public class SheratonHotel implements Hotel
         Interval holidayPeriod = new Interval(start, end);
 
         holidays.put(name, holidayPeriod);
+    }
+
+
+    @Override
+    public void addHolidayPriceModifier(String holidayName, double priceModifier)
+    {
+        holidayPriceModifiers.put(holidayName, priceModifier);
+    }
+
+
+    @Override
+    public void printHolidayPriceModifiers()
+    {
+        for( Map.Entry<String, Double> holiday : holidayPriceModifiers.entrySet() )
+        {
+            System.out.println("[ printHolidayPriceModifiers ] INFO: Holiday: " + holiday.getKey() +
+                               ", price modifier: " + holiday.getValue());
+        }
     }
 
 

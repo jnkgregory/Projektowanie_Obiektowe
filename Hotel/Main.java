@@ -53,6 +53,12 @@ public class Main
         System.out.println("\n[ main ] DEBUG: Status dokonania rezerwacji: "+reserved);
         hotel.printRoomsInfo();
 
+        TreeMap<String, Double> testMap = new TreeMap<String, Double>();
+        testMap.put("A", 1.5);
+        System.out.println("Test nadpisywania w TreeMap: " + testMap.get("A"));
+        testMap.put("A", 2.5);
+        System.out.println("2. Test nadpisywania w TreeMap: " + testMap.get("A"));
+
         System.out.println("\n");
     }
 }
