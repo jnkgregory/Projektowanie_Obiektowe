@@ -45,18 +45,16 @@ public class SheratonHotel implements Hotel
 
 
     @Override
-    public void saveRooms(Writer writer){}
-    public void savRooms()    
-    {
+    public void saveRooms(Writer writer){
     
-    BufferedWriter bw = null;
-    FileWriter fw = null;
+    //BufferedWriter bw = null;
+    //FileWriter fw = null;
 		
 try {
 
 			String content = "";
 	for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() ){
-            System.out.print(room.getKey()+ ','+ room.getValue().getnOfBeds()+','+'"');
+            //System.out.print(room.getKey()+ ','+ room.getValue().getnOfBeds()+','+'"');
             content=content+(room.getKey()+ ','+ room.getValue().getnOfBeds()+','+'"');
 
             ArrayList<ReservationInfo> thisRoomReservations = room.getValue().getReservations();
@@ -64,16 +62,16 @@ try {
             {
                 for (ReservationInfo reservation : thisRoomReservations)
                 {
-                    System.out.print("" + reservation.getStart() +';'+ reservation.getEnd() +';'+ reservation.getBedsRequested() +';'+ reservation.getClient().getEmail() +';'+reservation.getClient().getType()+',');
+                    //System.out.print("" + reservation.getStart() +';'+ reservation.getEnd() +';'+ reservation.getBedsRequested() +';'+ reservation.getClient().getEmail() +';'+reservation.getClient().getType()+',');
                     content=content+("" + reservation.getStart() +';'+ reservation.getEnd() +';'+ reservation.getBedsRequested() +';'+ reservation.getClient().getEmail() +';'+reservation.getClient().getType()+',');
                 }
             }
             else
             {
-                System.out.print("null");
+                //System.out.print("null");
                 content=content+"null";
             }
-            System.out.println('"');
+            //System.out.println('"');
             content=content+'"'+"\n";
         }
 			
@@ -81,9 +79,10 @@ try {
 			
 			
 
-			fw = new FileWriter("dane.txt");
-			bw = new BufferedWriter(fw);
-			bw.write(content);
+			//fw = new FileWriter("dane.txt");
+			//bw = new BufferedWriter(fw);
+			System.out.println(content);
+			writer.write(content);
 
 			System.out.println("Done");
 
@@ -95,11 +94,9 @@ try {
 
 			try {
 
-				if (bw != null)
-					bw.close();
+				if (writer != null)
+					writer.close();
 
-				if (fw != null)
-					fw.close();
 
 			} catch (IOException ex) {
 

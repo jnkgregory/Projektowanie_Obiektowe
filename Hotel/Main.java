@@ -5,7 +5,9 @@ import java.util.*;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
-
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 // KOMPILACJA:
 // javac -classpath "/.../Projektowanie_obiektowe/Hotel/joda-time-2.9.9.jar:lib/*;." *java
@@ -63,7 +65,28 @@ public class Main
 
         System.out.println("\n");
         System.out.println("*************************\n");
+
+
+		try {
+
+    FileWriter fw = new FileWriter("dane.txt");
+    BufferedWriter bw = new BufferedWriter(fw);
+          hotel.saveRooms(bw);  
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+
+
+            
+
+    
+    			//fw = 
+			//bw = new BufferedWriter(fw);
+    
         //System.out.println(hotel.hotelRooms);
-        hotel.savRooms();
+
     }
 }
