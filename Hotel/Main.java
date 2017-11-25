@@ -6,6 +6,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
 
+
 // KOMPILACJA:
 // javac -classpath "/.../Projektowanie_obiektowe/Hotel/joda-time-2.9.9.jar:lib/*;." *java
 // ----------
@@ -29,14 +30,21 @@ public class Main
         hotel.addRoom("D", 3);
 
         Client client = new ClientData("Zenon", "zenon@wp.pl", clientType.STUDENT);
+        Client client2 = new ClientData("Zenona", "enon@wp.pl", clientType.STUDENT);
 
         ReservationInfo reservation = new Reservation( new DateTime(2017, 12, 5, 0, 0, 0, 0),
                                                        new DateTime(2017, 12, 14, 0, 0, 0, 0),
                                                        4,
                                                        client);
+                                                       
+                ReservationInfo reservation2 = new Reservation( new DateTime(2017, 10, 5, 0, 0, 0, 0),
+                                                       new DateTime(2017, 12, 14, 0, 0, 0, 0),
+                                                       3,
+                                                       client2);
 
         RoomInfo newRoom = new Room("E", 5);
         newRoom.addReservation(reservation);
+        newRoom.addReservation(reservation2);
         hotel.addRoom("E", newRoom);
 
         hotel.printRoomsInfo();
@@ -54,5 +62,8 @@ public class Main
         hotel.printRoomsInfo();
 
         System.out.println("\n");
+        System.out.println("*************************\n");
+        //System.out.println(hotel.hotelRooms);
+        hotel.savRooms();
     }
 }

@@ -5,6 +5,10 @@ import java.time.Period;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 interface Hotel
 {    
     void loadRooms(Reader reader);
@@ -22,7 +26,7 @@ interface Hotel
 
 public class SheratonHotel implements Hotel
 {
-    TreeMap<String, RoomInfo> hotelRooms;
+    public TreeMap<String, RoomInfo> hotelRooms;
     ArrayList<ReservationInfo> reservations;
 
 
@@ -41,8 +45,79 @@ public class SheratonHotel implements Hotel
 
 
     @Override
-    public void saveRooms(Writer writer)
+    public void saveRooms(Writer writer){}
+    public void savRooms()    
     {
+    
+    BufferedWriter bw = null;
+    FileWriter fw = null;
+		
+try {
+
+			String content = "";
+	for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() ){
+            System.out.print(room.getKey()+ ','+ room.getValue().getnOfBeds()+','+'"');
+            content=content+(room.getKey()+ ','+ room.getValue().getnOfBeds()+','+'"');
+
+            ArrayList<ReservationInfo> thisRoomReservations = room.getValue().getReservations();
+            if( thisRoomReservations != null && thisRoomReservations.size() > 0 )
+            {
+                for (ReservationInfo reservation : thisRoomReservations)
+                {
+                    System.out.print("" + reservation.getStart() +';'+ reservation.getEnd() +';'+ reservation.getBedsRequested() +';'+ reservation.getClient().getEmail() +';'+reservation.getClient().getType()+',');
+                    content=content+("" + reservation.getStart() +';'+ reservation.getEnd() +';'+ reservation.getBedsRequested() +';'+ reservation.getClient().getEmail() +';'+reservation.getClient().getType()+',');
+                }
+            }
+            else
+            {
+                System.out.print("null");
+                content=content+"null";
+            }
+            System.out.println('"');
+            content=content+'"'+"\n";
+        }
+			
+			
+			
+			
+
+			fw = new FileWriter("dane.txt");
+			bw = new BufferedWriter(fw);
+			bw.write(content);
+
+			System.out.println("Done");
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+
+				if (bw != null)
+					bw.close();
+
+				if (fw != null)
+					fw.close();
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+
+			}
+
+		}
+
+			
+		
+		
+		
+		
+    
+    
+
+
 
     }
 
