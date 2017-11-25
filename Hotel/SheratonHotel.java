@@ -25,14 +25,14 @@ interface Hotel
 public class SheratonHotel implements Hotel
 {
     TreeMap<String, RoomInfo> hotelRooms;
-    ArrayList<ReservationInfo> reservations;
+    ArrayList<Booking> bookedReservations;
     TreeMap<String, Interval> holidays;
 
 
     public SheratonHotel()
     {
         this.hotelRooms = new TreeMap<String, RoomInfo>();
-        this.reservations = new ArrayList<ReservationInfo>();
+        this.bookedReservations = new ArrayList<Booking>();
         this.holidays = new TreeMap<String, Interval>();
     }
 
