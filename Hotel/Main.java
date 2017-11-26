@@ -5,6 +5,14 @@ import java.util.*;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 
 // KOMPILACJA:
 // javac -classpath "/.../Projektowanie_obiektowe/Hotel/joda-time-2.9.9.jar:lib/*;." *java
@@ -71,6 +79,19 @@ public class Main
 
         boolean reserved = hotel.makeReservation( client, reservation );
 
+          hotel.loadRooms("danu.txt");  
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
         System.out.println("\n[ main ] DEBUG: Status dokonania rezerwacji: "+reserved);
         hotel.printRoomsInfo();
 
@@ -82,11 +103,17 @@ public class Main
 
 
         System.out.println("\n");
+        
+        
+
+          hotel.saveRooms("dane.txt");  
+
 
         // ---------- END OF TEST CODE ----------
 
         // ----------- Program's main loop
-        boolean powerOn = true;
+        boolean powerOn = false;
+//        boolean powerOn = true;
         int chosenOption;
 
         while( powerOn )

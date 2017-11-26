@@ -5,10 +5,20 @@ import java.time.Period;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
+
+
 interface Hotel
 {    
-    void loadRooms(Reader reader);
-    void saveRooms(Writer writer);
+    void loadRooms(String file);
+    void saveRooms(String file);
     
     
     void addRoom(String name, int nOfBeds, roomStandard standard);
@@ -47,17 +57,107 @@ public class SheratonHotel implements Hotel
 
 
     @Override
-    public void loadRooms(Reader reader)
+    public void loadRooms(String file)
     {
+    BufferedReader reader =null;
+    String line = "";
+
+        try {
+	    reader = new BufferedReader(new FileReader(file));
+            while ((line = reader.readLine()) != null) {
+
+                // use comma as separator
+                String[] rekord = line.split(",");
+		this.addRoom(rekord[0],Integer.parseInt(rekord[1]),roomStandard.valueOf(rekord[3]));
+		String[] rezerwacje = rekord[2].split("^");
+		for (int i = 0; i < rezerwacje.length; i++) {
+		    //t = array[i];
+		    System.out.println("<loop body>");
+		}
+				System.out.println("<loop body>");
+				
+                //System.out.println("Country [code= " + country[4] + " , name=" + country[5] + "]");
+
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+
+
 
     }
 
 
-    @Override
-    public void saveRooms(Writer writer)
-    {
+@Override
+    public void saveRooms(String file){
+    BufferedWriter writer=null;
+		
+try {
+	 writer = new BufferedWriter(new FileWriter(file));
+			String content = "";
+	for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() ){
+            //System.out.print(room.getKey()+ ','+ room.getValue().getnOfBeds()+','+'"');
+            content=content+(room.getKey()+ ','+ room.getValue().getnOfBeds()+',');
 
-    }
+            ArrayList<ReservationInfo> thisRoomReservations = room.getValue().getReservations();
+            if( thisRoomReservations != null && thisRoomReservations.size() > 0 )
+            {
+                for (ReservationInfo reservation : thisRoomReservations)
+                {
+                    //System.out.print("" + reservation.getStart() +';'+ reservation.getEnd() +';'+ reservation.getBedsRequested() +';'+ reservation.getClient().getEmail() +';'+reservation.getClient().getType()+',');
+                    content=content+("" + reservation.getStart() +';'+ reservation.getEnd() +';'+ reservation.getBedsRequested() +';'+ reservation.getClient().getEmail() +';'+reservation.getClient().getType()+'|');
+                }
+            }
+            else
+            {
+                //System.out.print("null");
+                content=content+"null";
+            }
+            //System.out.println('"');
+            content=content+','+room.getValue().getRoomStandard()+"\n";
+        }
+
+			//fw = new FileWriter("dane.txt");
+			//bw = new BufferedWriter(fw);
+			System.out.println(content);
+			writer.write(content);
+
+			System.out.println("Done");
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+
+				if (writer != null)
+					writer.close();
+
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+
+			}
+
+		}
+
+}
 
 
     @Override
