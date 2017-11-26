@@ -15,6 +15,9 @@ interface Hotel
     void addRoom(String name, RoomInfo room);
     void deleteRoom(String name);
 
+    void setRoomPrice(String roomID, double priceForNight);
+    void printRoomPrices();
+
     void addHoliday(String name, DateTime start, DateTime end);
     void addHolidayPriceModifier(String holidayName, double priceModifier);
     void printHolidayPriceModifiers();
@@ -27,6 +30,7 @@ interface Hotel
 public class SheratonHotel implements Hotel
 {
     TreeMap<String, RoomInfo> hotelRooms;
+    TreeMap<String, Double> roomPrices;
     ArrayList<Booking> bookedReservations;
     TreeMap<String, Interval> holidays;
     TreeMap<String, Double> holidayPriceModifiers;
@@ -35,6 +39,7 @@ public class SheratonHotel implements Hotel
     public SheratonHotel()
     {
         this.hotelRooms = new TreeMap<String, RoomInfo>();
+        this.roomPrices = new TreeMap<String, Double>();
         this.bookedReservations = new ArrayList<Booking>();
         this.holidays = new TreeMap<String, Interval>();
         this.holidayPriceModifiers = new TreeMap<String, Double>();
@@ -106,6 +111,25 @@ public class SheratonHotel implements Hotel
     public void deleteRoom(String name)
     {
         hotelRooms.remove(name);
+    }
+
+
+    @Override
+    public void setRoomPrice(String roomID, double priceForNight)
+    {
+        roomPrices.put(roomID, priceForNight);
+    }
+
+
+    @Override
+    public void printRoomPrices()
+    {
+        System.out.println("[ printRoomPrices ] INFO: Rooms prices by room IDs");
+        for( Map.Entry<String, Double> roomPrice : roomPrices.entrySet() )
+        {
+            System.out.println("\n\tRoom: "+ roomPrice.getKey() +
+                               "\n\tBasic price: "+ roomPrice.getValue());
+        }
     }
 
 

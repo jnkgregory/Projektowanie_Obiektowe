@@ -16,10 +16,39 @@ import org.joda.time.Interval;
 // https://stackoverflow.com/questions/9395207/how-to-include-jar-files-with-java-file-and-compile-in-command-prompt
 // https://stackoverflow.com/questions/18938152/check-if-two-date-periods-overlap
 
+
 public class Main
 {
+    static int printMainMenu()
+    {
+        Scanner optionReader = new Scanner(System.in);
+
+        System.out.println("[ MAIN ] Hotel's main Control Panel. Options: ");
+
+        System.out.println("\t1: Add room");
+        System.out.println("\t2: Delete room");
+        System.out.println("\t3: Set room price");
+        System.out.println("\t4: Print rooms prices");
+        System.out.println("\t5: Print rooms prices");
+        System.out.println("\t6: Add holiday");
+        System.out.println("\t7: Add holiday's price modifier");
+        System.out.println("\t8: Print holiday's price modifier");
+        System.out.println("\t9: Add reservation");
+        System.out.println("\t10: Print rooms info");
+        System.out.println("\t11: Exit");
+
+        System.out.println("[ MAIN ] Please enter needed option: ");
+        int chosenOption = optionReader.nextInt();
+        optionReader.close();
+
+        return chosenOption;
+    }
+
+
     public static void main(String[] args)
     {
+        // ---------- TEST CODE ----------
+
         System.out.println("\n");
 
         SheratonHotel hotel = new SheratonHotel();
@@ -63,5 +92,12 @@ public class Main
         hotel.printHolidayPriceModifiers();
 
         System.out.println("\n");
+
+        // ---------- END OF TEST CODE ----------
+
+        boolean powerOn;
+        int chosenOption = printMainMenu();
+        System.out.println("[ main ] DEBUG: chosen option: " + chosenOption);
+
     }
 }
