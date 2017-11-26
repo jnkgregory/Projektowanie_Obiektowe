@@ -111,6 +111,7 @@ public class SheratonHotel implements Hotel
     public void deleteRoom(String name)
     {
         hotelRooms.remove(name);
+        roomPrices.remove(name);
     }
 
 

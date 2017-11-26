@@ -24,8 +24,8 @@ public class Main
         int chosenOption = 0;
         Scanner optionReader = new Scanner(System.in);
 
-        System.out.println("\n---------------------------------------------------");
-        System.out.println("\n[ MAIN ] Hotel's main Control Panel. Options: ");
+        System.out.println("\n---------------------------------------------------\n");
+        System.out.println("[ MAIN ] Hotel's main Control Panel. Options: ");
 
         System.out.println("\t1: Add room");
         System.out.println("\t2: Delete room");
@@ -37,7 +37,7 @@ public class Main
         System.out.println("\t8: Add reservation");
         System.out.println("\t9: Print rooms info");
         System.out.println("\t11: Exit");
-        System.out.println("\n---------------------------------------------------");
+        System.out.println("\n---------------------------------------------------\n");
 
         System.out.println("[ MAIN ] Please enter needed option: ");
         chosenOption = optionReader.nextInt();
@@ -98,14 +98,16 @@ public class Main
 
         // ----------- Program's main loop
         boolean powerOn = true;
-        int chosenOption = printMainMenu();
+        int chosenOption;
 
         while( powerOn )
         {
+            chosenOption = printMainMenu();
+
             switch (chosenOption)
             {
                 case 1:
-                    System.out.println("[ MAIN ] INFO: Option: Add room");
+                    System.out.println("[ MAIN ] INFO: Adding new room");
 
                     System.out.println("Enter room name: ");
                     String roomName = new Scanner(System.in).nextLine();
@@ -113,56 +115,49 @@ public class Main
                     System.out.println("Enter room beds number: ");
                     int nOfBeds = new Scanner(System.in).nextInt();
 
-                    System.out.println("Enter room's standard (NORMAL, HIGH, LUXURY, PRESIDENT");
+                    System.out.println("Enter room's standard (NORMAL, HIGH, LUXURY, PRESIDENT)");
                     roomStandard standard = roomStandard.valueOf( new Scanner(System.in).nextLine() );
 
                     hotel.addRoom(roomName, nOfBeds, standard);
 
-                    chosenOption = printMainMenu();
                     break;
                 case 2:
-                    System.out.println("[ MAIN ] INFO: Option: Delete room");
-                    chosenOption = printMainMenu();
+                    System.out.println("[ MAIN ] INFO: Deleting room");
+                    System.out.println("[ MAIN ] INFO: Available rooms:");
+                    hotel.printRoomsInfo();
+                    System.out.println("\nEnter name (ID) of the room to be deleted:");
+                    hotel.deleteRoom( new Scanner(System.in).nextLine() );
                     break;
                 case 3:
                     System.out.println("[ MAIN ] INFO: Option: Set room price");
-                    chosenOption = printMainMenu();
                     break;
                 case 4:
                     System.out.println("[ MAIN ] INFO: Option: Print rooms prices");
-                    chosenOption = printMainMenu();
                     break;
                 case 5:
                     System.out.println("[ MAIN ] INFO: Option: Add holiday");
-                    chosenOption = printMainMenu();
                     break;
                 case 6:
                     System.out.println("[ MAIN ] INFO: Option: Add holiday's price modifier");
-                    chosenOption = printMainMenu();
                     break;
                 case 7:
                     System.out.println("[ MAIN ] INFO: Option: Print holidays price modifiers");
-                    chosenOption = printMainMenu();
                     break;
                 case 8:
                     System.out.println("[ MAIN ] INFO: Option: Add reservation");
-                    chosenOption = printMainMenu();
                     break;
                 case 9:
                     System.out.println("[ MAIN ] INFO: Option: Print rooms info");
                     hotel.printRoomsInfo();
-                    chosenOption = printMainMenu();
                     break;
                 case 10:
                     System.out.println("[ MAIN ] INFO: Option: Test option");
-                    chosenOption = printMainMenu();
                     break;
                 case 11:
                     System.out.println("[ MAIN ] Exiting the system.");
                     powerOn = false;
                     break;
                 default:
-                    chosenOption = printMainMenu();
                     break;
             }
         }
