@@ -69,15 +69,6 @@ public class Main
         newRoom.addReservation(reservation);
         hotel.addRoom("E", newRoom);
 
-        hotel.printRoomsInfo();
-
-        //ArrayList<String> freeRooms = hotel.findFreeRooms( reservation );
-        //System.out.println("[ main ] Wypis rezerwacji: ");
-        //for(String roomID : freeRooms )
-        //{
-        //    System.out.println("\t[ main ] ID wolnego pokoju: "+roomID);
-        //}
-
         boolean reserved = hotel.makeReservation( client, reservation );
 
         System.out.println("\n[ main ] DEBUG: Status dokonania rezerwacji: "+reserved);
@@ -89,8 +80,6 @@ public class Main
         hotel.addHolidayPriceModifier("Boże_Narodzenie", 2.5);
         hotel.addHolidayPriceModifier("Sylwester", 4.5);
 
-        System.out.println("\n[ main ] DEBUG: Wypis modyfikatorów cen za okresy świąteczne.");
-        hotel.printHolidayPriceModifiers();
 
         System.out.println("\n");
 
@@ -123,16 +112,25 @@ public class Main
                     break;
                 case 2:
                     System.out.println("[ MAIN ] INFO: Deleting room");
+
                     System.out.println("[ MAIN ] INFO: Available rooms:");
                     hotel.printRoomsInfo();
                     System.out.println("\nEnter name (ID) of the room to be deleted:");
                     hotel.deleteRoom( new Scanner(System.in).nextLine() );
                     break;
                 case 3:
-                    System.out.println("[ MAIN ] INFO: Option: Set room price");
+                    System.out.println("[ MAIN ] INFO: Setting room price");
+
+                    System.out.println("Enter roomID: ");
+                    String roomID = new Scanner(System.in).nextLine();
+                    System.out.println("Enter room's price per night (please use comma, ex. 4,5): ");
+                    double roomPrice = new Scanner(System.in).nextDouble();
+
+                    hotel.setRoomPrice(roomID, roomPrice);
                     break;
                 case 4:
-                    System.out.println("[ MAIN ] INFO: Option: Print rooms prices");
+                    System.out.println("[ MAIN ] INFO: Printing rooms prices");
+                    hotel.printRoomPrices();
                     break;
                 case 5:
                     System.out.println("[ MAIN ] INFO: Option: Add holiday");
@@ -141,7 +139,9 @@ public class Main
                     System.out.println("[ MAIN ] INFO: Option: Add holiday's price modifier");
                     break;
                 case 7:
-                    System.out.println("[ MAIN ] INFO: Option: Print holidays price modifiers");
+                    System.out.println("[ MAIN ] INFO: Printing holidays price modifiers");
+
+                    hotel.printHolidayPriceModifiers();
                     break;
                 case 8:
                     System.out.println("[ MAIN ] INFO: Option: Add reservation");
