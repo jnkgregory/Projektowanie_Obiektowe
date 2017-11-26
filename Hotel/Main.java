@@ -133,10 +133,17 @@ public class Main
                     hotel.printRoomPrices();
                     break;
                 case 5:
-                    System.out.println("[ MAIN ] INFO: Option: Add holiday");
+                    System.out.println("[ MAIN ] INFO: Adding holiday");
                     break;
                 case 6:
-                    System.out.println("[ MAIN ] INFO: Option: Add holiday's price modifier");
+                    System.out.println("[ MAIN ] INFO: Adding holiday's price modifier");
+
+                    System.out.println("Enter Holiday's name: ");
+                    String holiday = new Scanner(System.in).nextLine();
+                    System.out.println("Enter holiday price modifier (please use comma, ex. 1,5): ");
+                    double roomPriceModifier = new Scanner(System.in).nextDouble();
+
+                    hotel.addHolidayPriceModifier(holiday, roomPriceModifier);
                     break;
                 case 7:
                     System.out.println("[ MAIN ] INFO: Printing holidays price modifiers");
