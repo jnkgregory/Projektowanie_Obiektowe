@@ -54,7 +54,7 @@ public class Main
 
         SheratonHotel hotel = new SheratonHotel();
         
-/*        
+        
         
         hotel.addRoom("A", 3, roomStandard.NORMAL);
         hotel.addRoom("B", 3, roomStandard.NORMAL);
@@ -84,7 +84,7 @@ public class Main
 
 
 
-*/
+
 
 
 
@@ -92,7 +92,7 @@ public class Main
           hotel.loadRooms("danu.txt");
    
         //System.out.println("\n[ main ] DEBUG: Status dokonania rezerwacji: "+reserved);
-        hotel.printRoomsInfo();
+        //hotel.printRoomsInfo();
 
         hotel.addHolidayPriceModifier("Easter", 1.5);
         hotel.addHolidayPriceModifier("Majowy Weekend", 1.8);
@@ -110,8 +110,8 @@ public class Main
         // ---------- END OF TEST CODE ----------
 
         // ----------- Program's main loop
-        boolean powerOn = false;
-//        boolean powerOn = true;
+//        boolean powerOn = false;
+        boolean powerOn = true;
         int chosenOption;
 
         while( powerOn )
@@ -177,6 +177,22 @@ public class Main
                     break;
                 case 8:
                     System.out.println("[ MAIN ] INFO: Option: Add reservation");
+                    System.out.println("Enter Clients email: ");
+                    String clientX = new Scanner(System.in).nextLine();
+                    System.out.println("Enter starting date(please use proper format, ex. 2017-12-05T00:00:00.000+01:00): ");
+                    String startDate = new Scanner(System.in).nextLine();
+                    System.out.println("Enter finishing date(please use proper format, ex. 2017-12-05T00:00:00.000+01:00): ");
+                    String finishDate = new Scanner(System.in).nextLine();
+                    System.out.println("Enter beds number:  ");
+                    int nOfBeds2 = new Scanner(System.in).nextInt();
+                    
+                    ReservationInfo reservationX = new Reservation( new DateTime(startDate),
+                                                       new DateTime(finishDate),
+                                                       nOfBeds2,
+                                                       hotel.clients.get(clientX));
+                    boolean reserved2 = hotel.makeReservation( hotel.clients.get(clientX), reservationX );
+                    if(reserved2) System.out.println("Success");
+                    else {System.out.println("Failure");}                            
                     break;
                 case 9:
                     System.out.println("[ MAIN ] INFO: Option: Print rooms info");
@@ -194,6 +210,6 @@ public class Main
             }
         }
 
-
+hotel.saveRooms("dane.txt");  
     }
 }

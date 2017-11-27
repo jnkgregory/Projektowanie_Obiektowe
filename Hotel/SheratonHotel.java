@@ -70,7 +70,7 @@ public class SheratonHotel implements Hotel
             }
 
         } catch (FileNotFoundException e) {
-        System.out.println("nie ma takiego pliku");
+        System.out.println("nie ma takiego pliku: "+file);
 //            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,7 +136,7 @@ try {
 		}
             }
         } catch (FileNotFoundException e) {
-        System.out.println("nie ma takiego pliku");
+        System.out.println("nie ma takiego pliku: "+file);
 //            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
