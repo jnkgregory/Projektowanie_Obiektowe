@@ -53,14 +53,18 @@ public class Main
         System.out.println("\n");
 
         SheratonHotel hotel = new SheratonHotel();
+        
+/*        
+        
         hotel.addRoom("A", 3, roomStandard.NORMAL);
         hotel.addRoom("B", 3, roomStandard.NORMAL);
         hotel.addRoom("C", 3, roomStandard.HIGH);
         hotel.addRoom("D", 3, roomStandard.LUXURY);
-
-        Client client = new ClientData("Zenon", "zenon@wp.pl", clientType.STUDENT);
-        Client client2 = new ClientData("Zenona", "enon@wp.pl", clientType.STUDENT);
-
+	
+        ClientData client = new ClientData("Zenon", "zenon@wp.pl", clientType.STUDENT);
+        ClientData client2 = new ClientData("Zenona", "enon@wp.pl", clientType.STUDENT);
+	hotel.clients.put(client.getEmail(),client);
+	hotel.clients.put(client2.getEmail(),client2);
         ReservationInfo reservation = new Reservation( new DateTime(2017, 12, 5, 0, 0, 0, 0),
                                                        new DateTime(2017, 12, 14, 0, 0, 0, 0),
                                                        4,
@@ -78,20 +82,16 @@ public class Main
 
         boolean reserved = hotel.makeReservation( client, reservation );
 
-          hotel.loadRooms("danu.txt");  
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
 
-        System.out.println("\n[ main ] DEBUG: Status dokonania rezerwacji: "+reserved);
+*/
+
+
+
+	  hotel.loadClients("clients.txt");  
+          hotel.loadRooms("danu.txt");
+   
+        //System.out.println("\n[ main ] DEBUG: Status dokonania rezerwacji: "+reserved);
         hotel.printRoomsInfo();
 
         hotel.addHolidayPriceModifier("Easter", 1.5);
@@ -103,7 +103,7 @@ public class Main
 
         System.out.println("\n");
 
-
+	  hotel.saveClients("clients.txt");  
           hotel.saveRooms("dane.txt");  
 
 

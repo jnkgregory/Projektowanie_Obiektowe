@@ -18,8 +18,8 @@ interface Hotel
     void saveRooms(String file);
     
     
-    void addRoom(String name, int nOfBeds, roomStandard standard);
-    void addRoom(String name, RoomInfo room);
+    RoomInfo addRoom(String name, int nOfBeds, roomStandard standard);
+    RoomInfo addRoom(String name, RoomInfo room);
     void deleteRoom(String name);
 
     void setRoomPrice(String roomID, double priceForNight);
@@ -42,6 +42,7 @@ public class SheratonHotel implements Hotel
     ArrayList<Booking> bookedReservations;
     TreeMap<String, Interval> holidays;
     TreeMap<String, Double> holidayPriceModifiers;
+    TreeMap<String, ClientData> clients;
 
 
 
@@ -52,35 +53,25 @@ public class SheratonHotel implements Hotel
         this.bookedReservations = new ArrayList<Booking>();
         this.holidays = new TreeMap<String, Interval>();
         this.holidayPriceModifiers = new TreeMap<String, Double>();
+        this.clients= new TreeMap<String, ClientData>();
     }
 
 
-    @Override
-    public void loadRooms(String file)
-    {
+    public void loadClients(String file){
     BufferedReader reader =null;
     String line = "";
 
         try {
 	    reader = new BufferedReader(new FileReader(file));
             while ((line = reader.readLine()) != null) {
-
-                // use comma as separator
                 String[] rekord = line.split(",");
-		this.addRoom(rekord[0],Integer.parseInt(rekord[1]),roomStandard.valueOf(rekord[3]));
-		String[] rezerwacje = rekord[2].split("^");
-		for (int i = 0; i < rezerwacje.length; i++) {
-		    //t = array[i];
-		    System.out.println("<loop body>");
-		}
-				System.out.println("<loop body>");
-				
-                //System.out.println("Country [code= " + country[4] + " , name=" + country[5] + "]");
-
+		this.clients.put(rekord[1], new ClientData(rekord[0], rekord[1], clientType.valueOf(rekord[2])));
+		
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        System.out.println("nie ma takiego pliku");
+//            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -92,11 +83,72 @@ public class SheratonHotel implements Hotel
                 }
             }
         }
+    }
 
 
 
+    public void saveClients(String file){
+        BufferedWriter writer=null;		
+try {
+	 writer = new BufferedWriter(new FileWriter(file));
+	String content = "";
+	for( Map.Entry<String, ClientData> client : clients.entrySet() ){
+            content=content+(client.getValue().getName()+','+client.getValue().getEmail()+','+(client.getValue().getType())+"\n");
+                        
+        }
+			writer.write(content);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (writer != null)
+					writer.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+}
+    
 
+    @Override
+    public void loadRooms(String file)
+    {
+    BufferedReader reader =null;
+    String line = "";
 
+        try {
+	    reader = new BufferedReader(new FileReader(file));
+            while ((line = reader.readLine()) != null) {
+
+                String[] rekord = line.split(",");
+		RoomInfo newRoom=this.addRoom(rekord[0],Integer.parseInt(rekord[1]),roomStandard.valueOf(rekord[3]));
+		if(!(rekord[2].equals("null"))){
+		String[] rezerwacjeList = rekord[2].split("^");
+		for (int i = 0; i < rezerwacjeList.length; i++) {
+		    String[] rezerwacjaInfo = rezerwacjeList[i].split(";");
+		    Client client=clients.get(rezerwacjaInfo[3]);
+		    newRoom.addReservation(new Reservation( new DateTime(rezerwacjaInfo[0]),
+                                                       new DateTime(rezerwacjaInfo[1]),
+                                                       Integer.parseInt(rezerwacjaInfo[2]),
+                                                       client));
+		    
+		}
+		}
+            }
+        } catch (FileNotFoundException e) {
+        System.out.println("nie ma takiego pliku");
+//            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 
@@ -108,54 +160,27 @@ try {
 	 writer = new BufferedWriter(new FileWriter(file));
 			String content = "";
 	for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() ){
-            //System.out.print(room.getKey()+ ','+ room.getValue().getnOfBeds()+','+'"');
             content=content+(room.getKey()+ ','+ room.getValue().getnOfBeds()+',');
-
             ArrayList<ReservationInfo> thisRoomReservations = room.getValue().getReservations();
-            if( thisRoomReservations != null && thisRoomReservations.size() > 0 )
-            {
-                for (ReservationInfo reservation : thisRoomReservations)
-                {
-                    //System.out.print("" + reservation.getStart() +';'+ reservation.getEnd() +';'+ reservation.getBedsRequested() +';'+ reservation.getClient().getEmail() +';'+reservation.getClient().getType()+',');
+            if( thisRoomReservations != null && thisRoomReservations.size() > 0 ){
+                for (ReservationInfo reservation : thisRoomReservations){
                     content=content+("" + reservation.getStart() +';'+ reservation.getEnd() +';'+ reservation.getBedsRequested() +';'+ reservation.getClient().getEmail() +';'+reservation.getClient().getType()+'|');
                 }
             }
-            else
-            {
-                //System.out.print("null");
-                content=content+"null";
-            }
-            //System.out.println('"');
+            else {content=content+"null";}
+
             content=content+','+room.getValue().getRoomStandard()+"\n";
         }
-
-			//fw = new FileWriter("dane.txt");
-			//bw = new BufferedWriter(fw);
-			System.out.println(content);
 			writer.write(content);
-
-			System.out.println("Done");
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		} finally {
-
 			try {
-
-				if (writer != null)
-					writer.close();
-
-
+				if (writer != null) writer.close();
 			} catch (IOException ex) {
-
 				ex.printStackTrace();
-
 			}
-
 		}
-
 }
 
 
@@ -192,19 +217,21 @@ try {
 
 
     @Override
-    public void addRoom(String name, int nOfBeds, roomStandard standard)
+    public RoomInfo addRoom(String name, int nOfBeds, roomStandard standard)
     {
         RoomInfo newRoom = new Room(name, nOfBeds, standard);
         hotelRooms.put(name, newRoom);
+        return newRoom;
     }
-
+/////
 
     @Override
-    public void addRoom(String name, RoomInfo room)
+    public RoomInfo addRoom(String name, RoomInfo room)
     {
         hotelRooms.put(name, room);
+        return room;
     }
-
+/////
 
     @Override
     public void deleteRoom(String name)
