@@ -37,7 +37,9 @@ public class Main
         System.out.println("\t8: Print holiday's price modifier");
         System.out.println("\t9: Add reservation");
         System.out.println("\t10: Print rooms info");
-        System.out.println("\t20: Exit");
+        System.out.println("\t11: Add client");
+        System.out.println("\t12: Print clients info");
+        System.out.println("\t99: Exit");
         System.out.println("\n---------------------------------------------------\n");
 
         System.out.println("[ MAIN ] Please enter needed option: ");
@@ -109,7 +111,6 @@ public class Main
                     roomStandard standard = roomStandard.valueOf( new Scanner(System.in).nextLine() );
 
                     hotel.addRoom(roomName, nOfBeds, standard);
-
                     break;
                 case 2:
                     System.out.println("[ MAIN ] INFO: Deleting room");
@@ -153,13 +154,11 @@ public class Main
                     DateTime hEndDate = new DateTime(endDateArr[0], endDateArr[1], endDateArr[2], 0, 0, 0, 0);
 
                     hotel.addHoliday(holidayName, hStartDate, hEndDate);
-
                     break;
                 case 6:
                     System.out.println("[ MAIN ] INFO: Printing holidays");
 
                     hotel.printHolidays();
-
                     break;
                 case 7:
                     System.out.println("[ MAIN ] INFO: Adding holiday's price modifier");
@@ -184,9 +183,28 @@ public class Main
                     hotel.printRoomsInfo();
                     break;
                 case 11:
+                    System.out.println("[ MAIN ] INFO: Adding client");
+
+                    System.out.println("Enter client's name: ");
+                    String clientName = new Scanner(System.in).nextLine();
+                    System.out.println("Enter client's email: ");
+                    String clientEmail = new Scanner(System.in).nextLine();
+                    System.out.println("Enter client's type (STUDENT, NORMAL, LUXURY, PRESIDENT):");
+                    clientType type = clientType.valueOf( new Scanner(System.in).nextLine() );
+
+                    Client newClient = new ClientData(clientName, clientEmail, type);
+                    hotel.addClient( newClient );
+
+                    break;
+                case 12:
+                    System.out.println("[ MAIN ] INFO: Printing clients");
+
+                    hotel.printClients();
+                    break;
+                case 98:
                     System.out.println("[ MAIN ] INFO: Option: Test option");
                     break;
-                case 20:
+                case 99:
                     System.out.println("[ MAIN ] Exiting the system.");
                     powerOn = false;
                     break;

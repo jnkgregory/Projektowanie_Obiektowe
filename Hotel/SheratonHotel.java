@@ -18,6 +18,10 @@ interface Hotel
     void setRoomPrice(String roomID, double priceForNight);
     void printRoomPrices();
 
+    boolean addClient(Client client);
+    Client getHotelClient(String email);
+    void printClients();
+
     void addHoliday(String name, DateTime start, DateTime end);
     void printHolidays();
     void addHolidayPriceModifier(String holidayName, double priceModifier);
@@ -32,6 +36,7 @@ public class SheratonHotel implements Hotel
 {
     TreeMap<String, RoomInfo> hotelRooms;
     TreeMap<String, Double> roomPrices;
+    TreeMap<String, Client> clients;
     ArrayList<Booking> bookedReservations;
     TreeMap<String, Interval> holidays;
     TreeMap<String, Double> holidayPriceModifiers;
@@ -41,6 +46,7 @@ public class SheratonHotel implements Hotel
     {
         this.hotelRooms = new TreeMap<String, RoomInfo>();
         this.roomPrices = new TreeMap<String, Double>();
+        this.clients = new TreeMap<String, Client>();
         this.bookedReservations = new ArrayList<Booking>();
         this.holidays = new TreeMap<String, Interval>();
         this.holidayPriceModifiers = new TreeMap<String, Double>();
@@ -131,6 +137,42 @@ public class SheratonHotel implements Hotel
         {
             System.out.println("\n\tRoom: "+ roomPrice.getKey() +
                                "\n\tBasic price: "+ roomPrice.getValue());
+        }
+    }
+
+
+    @Override
+    public boolean addClient(Client client)
+    {
+        boolean ADDED = false;
+
+        if( clients.containsKey( client.getEmail() ) )
+            return ADDED;
+
+        clients.put( client.getEmail(), client );
+        ADDED = true;
+
+        return ADDED;
+    }
+
+
+    @Override
+    public Client getHotelClient(String email)
+    {
+        return clients.get( email );
+    }
+
+
+    @Override
+    public void printClients()
+    {
+        System.out.println("[ printClients ] INFO: Printing clients, registered in the system");
+        for( Map.Entry<String, Client> client : clients.entrySet() )
+        {
+            System.out.println("\tEntry: " + client.getKey() +
+                               "\n\t\tName: " + client.getValue().getName() +
+                               "\n\t\tEmail: " + client.getValue().getEmail() +
+                               "\n\t\tType: " + client.getValue().getType());
         }
     }
 
