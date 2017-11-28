@@ -19,6 +19,7 @@ interface Hotel
     void printRoomPrices();
 
     void addHoliday(String name, DateTime start, DateTime end);
+    void printHolidays();
     void addHolidayPriceModifier(String holidayName, double priceModifier);
     void printHolidayPriceModifiers();
 
@@ -140,6 +141,23 @@ public class SheratonHotel implements Hotel
         Interval holidayPeriod = new Interval(start, end);
 
         holidays.put(name, holidayPeriod);
+    }
+
+
+    @Override
+    public void printHolidays()
+    {
+        System.out.println("[ printHolidays ] INFO: Holidays, registered in the system.");
+        for( Map.Entry<String, Interval> holiday : holidays.entrySet() )
+        {
+            String name = holiday.getKey();
+            DateTime start = holiday.getValue().getStart();
+            DateTime end = holiday.getValue().getEnd();
+
+            System.out.println("\tHoliday name: " + name +
+                               "\n\t\tStart: " + start +
+                               "\n\t\tEnd: " + end);
+        }
     }
 
 
