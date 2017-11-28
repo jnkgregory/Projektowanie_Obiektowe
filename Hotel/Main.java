@@ -177,6 +177,51 @@ public class Main
                     break;
                 case 9:
                     System.out.println("[ MAIN ] INFO: Option: Add reservation");
+
+                    int[] rStartDateArr = new int[3];
+                    int[] rEndDateArr = new int[3];
+                    int bedsNumber;
+                    Scanner rDateReader = new Scanner(System.in);
+
+                    System.out.println("Enter client's email: ");
+                    String clientEmail = new Scanner(System.in).nextLine();
+                    Client requestClient = hotel.getHotelClient(clientEmail);
+
+                    if( requestClient == null )
+                    {
+                        System.out.println("Adding new client to the system");
+                        System.out.println("Enter client's name: ");
+                        String rClientName = new Scanner(System.in).nextLine();
+                        System.out.println("Enter client's email: ");
+                        String rClientEmail = new Scanner(System.in).nextLine();
+                        System.out.println("Enter client's type (STUDENT, NORMAL, LUXURY, PRESIDENT):");
+                        clientType rType = clientType.valueOf( new Scanner(System.in).nextLine() );
+
+                        requestClient = new ClientData(rClientName, rClientEmail, rType);
+                        hotel.addClient( requestClient );
+                    }
+
+                    System.out.println("Please enter reserwation start date in a manner: YYYY MM DD");
+                    for(int i = 0; i < 3; ++i)
+                        rStartDateArr[i] = rDateReader.nextInt();
+
+                    System.out.println("Please enter reservation end date in a manner: YYYY MM DD");
+                    for(int i = 0; i < 3; ++i)
+                        rEndDateArr[i] = rDateReader.nextInt();
+
+                    System.out.println("Please enter no of needed beds");
+                    bedsNumber = rDateReader.nextInt();
+
+                    DateTime rStartDate = new DateTime(rStartDateArr[0], rStartDateArr[1], rStartDateArr[2], 0, 0, 0, 0);
+                    DateTime rEndDate = new DateTime(rEndDateArr[0], rEndDateArr[1], rEndDateArr[2], 0, 0, 0, 0);
+
+                    ReservationInfo reservationRequest = new Reservation(rStartDate, rEndDate, bedsNumber, requestClient);
+                    boolean reservationSuccess = hotel.makeReservation( requestClient, reservationRequest );
+
+                    if( reservationSuccess )
+                        System.out.println("[ MAIN ] INFO: Adding reservation success");
+                    else
+                        System.out.println("[ MAIN ] WARNING: Reservation rejected");
                     break;
                 case 10:
                     System.out.println("[ MAIN ] INFO: Option: Print rooms info");
@@ -186,13 +231,13 @@ public class Main
                     System.out.println("[ MAIN ] INFO: Adding client");
 
                     System.out.println("Enter client's name: ");
-                    String clientName = new Scanner(System.in).nextLine();
+                    String aClientName = new Scanner(System.in).nextLine();
                     System.out.println("Enter client's email: ");
-                    String clientEmail = new Scanner(System.in).nextLine();
+                    String aClientEmail = new Scanner(System.in).nextLine();
                     System.out.println("Enter client's type (STUDENT, NORMAL, LUXURY, PRESIDENT):");
-                    clientType type = clientType.valueOf( new Scanner(System.in).nextLine() );
+                    clientType aType = clientType.valueOf( new Scanner(System.in).nextLine() );
 
-                    Client newClient = new ClientData(clientName, clientEmail, type);
+                    Client newClient = new ClientData(aClientName, aClientEmail, aType);
                     hotel.addClient( newClient );
 
                     break;
