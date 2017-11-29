@@ -28,6 +28,7 @@ interface Hotel
     void printHolidayPriceModifiers();
 
     boolean makeReservation(Client client,  ReservationInfo request);
+    void printBookedReservations();
     void printRoomsInfo();
 }   
 
@@ -100,10 +101,11 @@ public class SheratonHotel implements Hotel
 
 
     @Override
-    public void addRoom(String name, int nOfBeds, roomStandard standard)
+    public void addRoom(String name, int nOfBeds, roomStandard standard, double price)
     {
         RoomInfo newRoom = new Room(name, nOfBeds, standard);
         hotelRooms.put(name, newRoom);
+        roomPrices.put(name, price);
     }
 
 
@@ -256,6 +258,13 @@ public class SheratonHotel implements Hotel
     }
 
 
+    void makeBookedReservation(Client client, ReservationInfo request, double totalPrice, ArrayList<String> roomIDs)
+    {
+        Booking booked = new BookedReservation(client, request, totalPrice, roomIDs);
+        bookedReservations.add(booked);
+    }
+
+
     @Override
     public boolean makeReservation(Client client, ReservationInfo request)
     {
@@ -265,6 +274,7 @@ public class SheratonHotel implements Hotel
         ArrayList<String> roomsWithFreeTimeSlot = findFreeRooms( request );
 
         int collectedBeds = 0;
+        int totalPrice = 0;
         ArrayList<String> roomsToReserve = new ArrayList<String>();
 
         if( roomsWithFreeTimeSlot.size() == 0 )
@@ -281,8 +291,6 @@ public class SheratonHotel implements Hotel
 
             collectedBeds = collectedBeds + hotelRooms.get(roomID).getnOfBeds();
             roomsToReserve.add(roomID);
-
-
         }
 
         if(collectedBeds >= requestedBeds )
@@ -293,7 +301,7 @@ public class SheratonHotel implements Hotel
                 System.out.println("[ makeReservation ] DEBUG: roomsToReserve: " + roomID);
                 hotelRooms.get(roomID).addReservation(request);
             }
-
+            makeBookedReservation(client, request, totalPrice, roomsToReserve);
             BOOKED = true;
         }
 

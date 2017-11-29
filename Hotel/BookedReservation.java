@@ -6,24 +6,31 @@ import org.joda.time.Interval;
 
 interface Booking
 {
+    double getTotalPrice();
     ArrayList<String> getRoomIDs();
-    ClientData getClient();
+    Client getClient();
     ReservationInfo getBookedReservation();
 }
 
 public class BookedReservation implements Booking
 {
-    float totalPrice;
+    double totalPrice;
     ArrayList<String> roomIDs;
-    ClientData client;
+    Client client;
     ReservationInfo reservation;
 
-    public BookedReservation(ClientData client, ReservationInfo reservation, float totalPrice, ArrayList<String> roomIDs)
+    public BookedReservation(Client client, ReservationInfo reservation, double totalPrice, ArrayList<String> roomIDs)
     {
         this.totalPrice = totalPrice;
         this.roomIDs = roomIDs;
         this.client = client;
         this.reservation = reservation;
+    }
+
+    @Override
+    public double getTotalPrice()
+    {
+        return totalPrice;
     }
 
     @Override
@@ -33,7 +40,7 @@ public class BookedReservation implements Booking
     }
 
     @Override
-    public ClientData getClient()
+    public Client getClient()
     {
         return client;
     }
