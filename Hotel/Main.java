@@ -36,9 +36,10 @@ public class Main
         System.out.println("\t7: Add holiday's price modifier");
         System.out.println("\t8: Print holiday's price modifier");
         System.out.println("\t9: Add reservation");
-        System.out.println("\t10: Print rooms info");
-        System.out.println("\t11: Add client");
-        System.out.println("\t12: Print clients info");
+        System.out.println("\t10: Print booked reservations");
+        System.out.println("\t11: Print rooms info");
+        System.out.println("\t12: Add client");
+        System.out.println("\t13: Print clients info");
         System.out.println("\t99: Exit");
         System.out.println("\n---------------------------------------------------\n");
 
@@ -56,10 +57,10 @@ public class Main
         System.out.println("\n");
 
         SheratonHotel hotel = new SheratonHotel();
-        hotel.addRoom("A", 3, roomStandard.NORMAL);
-        hotel.addRoom("B", 3, roomStandard.NORMAL);
-        hotel.addRoom("C", 3, roomStandard.HIGH);
-        hotel.addRoom("D", 3, roomStandard.LUXURY);
+        hotel.addRoom("A", 3, roomStandard.NORMAL, 1);
+        hotel.addRoom("B", 3, roomStandard.NORMAL, 2);
+        hotel.addRoom("C", 3, roomStandard.HIGH, 3);
+        hotel.addRoom("D", 3, roomStandard.LUXURY, 4);
 
         Client client = new ClientData("Zenon", "zenon@wp.pl", clientType.STUDENT);
 
@@ -110,7 +111,10 @@ public class Main
                     System.out.println("Enter room's standard (NORMAL, HIGH, LUXURY, PRESIDENT)");
                     roomStandard standard = roomStandard.valueOf( new Scanner(System.in).nextLine() );
 
-                    hotel.addRoom(roomName, nOfBeds, standard);
+                    System.out.println("Enter room's price per night (please use comma, ex. 4,5): ");
+                    double nRoomPrice = new Scanner(System.in).nextDouble();
+
+                    hotel.addRoom(roomName, nOfBeds, standard, nRoomPrice);
                     break;
                 case 2:
                     System.out.println("[ MAIN ] INFO: Deleting room");
@@ -224,10 +228,14 @@ public class Main
                         System.out.println("[ MAIN ] WARNING: Reservation rejected");
                     break;
                 case 10:
+                    System.out.println("[ MAIN ] INFO: Option: Print booked reservations");
+                    hotel.printBookedReservations();
+                    break;
+                case 11:
                     System.out.println("[ MAIN ] INFO: Option: Print rooms info");
                     hotel.printRoomsInfo();
                     break;
-                case 11:
+                case 12:
                     System.out.println("[ MAIN ] INFO: Adding client");
 
                     System.out.println("Enter client's name: ");
@@ -241,7 +249,7 @@ public class Main
                     hotel.addClient( newClient );
 
                     break;
-                case 12:
+                case 13:
                     System.out.println("[ MAIN ] INFO: Printing clients");
 
                     hotel.printClients();

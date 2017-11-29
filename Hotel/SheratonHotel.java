@@ -11,7 +11,7 @@ interface Hotel
     void saveRooms(Writer writer);
     
     
-    void addRoom(String name, int nOfBeds, roomStandard standard);
+    void addRoom(String name, int nOfBeds, roomStandard standard, double price);
     void addRoom(String name, RoomInfo room);
     void deleteRoom(String name);
 
@@ -301,11 +301,28 @@ public class SheratonHotel implements Hotel
                 System.out.println("[ makeReservation ] DEBUG: roomsToReserve: " + roomID);
                 hotelRooms.get(roomID).addReservation(request);
             }
+
             makeBookedReservation(client, request, totalPrice, roomsToReserve);
             BOOKED = true;
         }
 
 
         return BOOKED;
+    }
+
+    @Override
+    public void printBookedReservations()
+    {
+        System.out.println("[ printBookedReservations ] INFO: Printing booked reservations");
+        for(Booking booking : bookedReservations )
+        {
+            System.out.println("RESERVATION: " +
+                               "\n\tClient: " + booking.getClient().getEmail() +
+                               "\n\tStart: " + booking.getBookedReservation().getStart() +
+                               "\n\tEnd: " + booking.getBookedReservation().getEnd() +
+                               "\n\tBeds: " + booking.getBookedReservation().getBedsRequested() +
+                               "\n\tRooms: " + String.join(" , ", booking.getRoomIDs()) +
+                               "\n\tPrice: " + booking.getTotalPrice());
+        }
     }
 }
