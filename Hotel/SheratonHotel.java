@@ -258,6 +258,23 @@ public class SheratonHotel implements Hotel
     }
 
 
+    double modifyTotalPriceByHoliday(DateTime start, DateTime end, double basePrice)
+    {
+        Interval reservationTime = new Interval(start, end);
+        double modifiedTotalPrice = basePrice;
+
+        for( Map.Entry<String, Interval> holiday : holidays.entrySet() )
+        {
+            if( reservationTime.overlaps( holiday.getValue() ) )
+            {
+                modifiedTotalPrice = modifiedTotalPrice * holidayPriceModifiers.get( holiday.getKey() );
+            }
+        }
+
+        return modifiedTotalPrice;
+    }
+
+
     void makeBookedReservation(Client client, ReservationInfo request, double totalPrice, ArrayList<String> roomIDs)
     {
         Booking booked = new BookedReservation(client, request, totalPrice, roomIDs);
@@ -274,7 +291,8 @@ public class SheratonHotel implements Hotel
         ArrayList<String> roomsWithFreeTimeSlot = findFreeRooms( request );
 
         int collectedBeds = 0;
-        int totalPrice = 0;
+        double totalPrice = 0;
+        double totalModifiedPrice = 0;
         ArrayList<String> roomsToReserve = new ArrayList<String>();
 
         if( roomsWithFreeTimeSlot.size() == 0 )
@@ -290,6 +308,8 @@ public class SheratonHotel implements Hotel
             if( collectedBeds >= requestedBeds ) break;
 
             collectedBeds = collectedBeds + hotelRooms.get(roomID).getnOfBeds();
+            totalPrice = totalPrice + roomPrices.get(roomID);
+
             roomsToReserve.add(roomID);
         }
 
@@ -302,6 +322,7 @@ public class SheratonHotel implements Hotel
                 hotelRooms.get(roomID).addReservation(request);
             }
 
+            totalModifiedPrice = modifyTotalPriceByHoliday(request.getStart(), request.getEnd(), totalPrice);
             makeBookedReservation(client, request, totalPrice, roomsToReserve);
             BOOKED = true;
         }
