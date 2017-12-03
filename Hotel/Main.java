@@ -38,12 +38,12 @@ public class Main
 
         System.out.println("\t1: Add room");
         System.out.println("\t2: Delete room");
-        System.out.println("\t3: Set room price");
+//        System.out.println("\t3: Set room price");
         System.out.println("\t4: Print rooms prices");
         System.out.println("\t5: Add holiday");
         System.out.println("\t6: Print holidays");
-        System.out.println("\t7: Add holiday's price modifier");
-        System.out.println("\t8: Print holiday's price modifier");
+//        System.out.println("\t7: Add holiday's price modifier");
+//        System.out.println("\t8: Print holiday's price modifier");
         System.out.println("\t9: Add reservation");
         System.out.println("\t10: Print booked reservations");
         System.out.println("\t11: Print rooms info");
@@ -78,6 +78,7 @@ public class Main
         ClientData client2 = new ClientData("Zenona", "enon@wp.pl", clientType.NORMAL);
 	hotel.clients.put(client.getEmail(),client);
 	hotel.clients.put(client2.getEmail(),client2);
+	/*
         ReservationInfo reservation = new Reservation( new DateTime(2017, 12, 5, 0, 0, 0, 0),
                                                        new DateTime(2017, 12, 14, 0, 0, 0, 0),
                                                        4,
@@ -87,13 +88,13 @@ public class Main
                                                        new DateTime(2017, 12, 14, 0, 0, 0, 0),
                                                        3,
                                                        client2);
-
+*/
         RoomInfo newRoom = new Room("E", 5, roomStandard.PRESIDENT);
-        newRoom.addReservation(reservation);
-        newRoom.addReservation(reservation2);
+  //      newRoom.addReservation(reservation);
+    //    newRoom.addReservation(reservation2);
         hotel.addRoom("E", newRoom);
 
-        boolean reserved = hotel.makeReservation( client, reservation );
+      //  boolean reserved = hotel.makeReservation( client, reservation );
 
 
 
@@ -137,6 +138,8 @@ public class Main
 //        boolean powerOn = false;
         boolean powerOn = true;
         Pattern roomType=Pattern.compile("NORMAL|HIGH|LUXURY|PRESIDENT");
+        Pattern clientBonus=Pattern.compile("NORMAL|SUPER|PREMIUM|VIP");
+
         int chosenOption;
 
         while( powerOn )
@@ -156,10 +159,7 @@ public class Main
                     int nOfBeds = new Scanner(System.in).nextInt();
 
                     System.out.println("Enter room's standard (NORMAL, HIGH, LUXURY, PRESIDENT)");
-                    //roomStandard standard = roomStandard.valueOf( new Scanner(System.in).nextLine() );
                     roomStandard standard = roomStandard.valueOf( new Scanner(System.in).next(roomType) );
-                    //System.out.println("Enter room's price per night (please use comma, ex. 4,5): ");
-                    //double nRoomPrice = new Scanner(System.in).nextDouble();
 
                     hotel.addRoom(roomName, nOfBeds, standard);
                     break;
@@ -172,11 +172,11 @@ public class Main
                     hotel.deleteRoom( new Scanner(System.in).nextLine() );
                     break;
                 case 3:
-                    System.out.println("[ MAIN ] INFO: Setting room price");
+                    //System.out.println("[ MAIN ] INFO: Setting room price");
 
-                    System.out.println("Enter roomID: ");
-                    String roomID = new Scanner(System.in).nextLine();
-                    System.out.println("Enter room's price per night (please use comma, ex. 4,5): ");
+                    //System.out.println("Enter roomID: ");
+                    //String roomID = new Scanner(System.in).nextLine();
+                    //System.out.println("Enter room's price per night (please use comma, ex. 4,5): ");
                     //double roomPrice = new Scanner(System.in).nextDouble();
 
                     //hotel.setRoomPrice(roomID, roomPrice);
@@ -186,25 +186,25 @@ public class Main
                     hotel.printRoomPrices();
                     break;
                 case 5:
-                   // System.out.println("[ MAIN ] INFO: Adding holiday");
+                    System.out.println("[ MAIN ] INFO: Adding holiday");
                    
-//                    int[] startDateArr = new int[3];
-  //                  int[] endDateArr = new int[3];
+
     //                Scanner dateReader = new Scanner(System.in);
 //
-  //                  System.out.println("Enter Holiday's name: ");
-    //                String holidayName = new Scanner(System.in).nextLine();
-      //              System.out.println("Please enter start date in a manner: YYYY MM DD");
-        //            for(int i = 0; i < 3; ++i)
-          //              startDateArr[i] = dateReader.nextInt();
-            //        System.out.println("Please enter end date in a manner: YYYY MM DD");
-              //      for(int i = 0; i < 3; ++i)
-                //        endDateArr[i] = dateReader.nextInt();
-//
-  //                  DateTime hStartDate = new DateTime(startDateArr[0], startDateArr[1], startDateArr[2], 0, 0, 0, 0);
-    //                DateTime hEndDate = new DateTime(endDateArr[0], endDateArr[1], endDateArr[2], 0, 0, 0, 0);
-//
-  //                  hotel.addHoliday(holidayName, hStartDate, hEndDate);
+                    System.out.println("Enter Holiday's name: ");
+                    String holidayName = new Scanner(System.in).nextLine();
+                    System.out.println("Please enter start date month (MM): ");
+                    int startMM = new Scanner(System.in).nextInt();
+                    System.out.println("Please enter start date day (DD): ");
+                    int startDD = new Scanner(System.in).nextInt();
+                    System.out.println("Please enter end date month (MM): ");
+                    int endMM = new Scanner(System.in).nextInt();
+                    System.out.println("Please enter end date day (DD): ");
+                    int endDD = new Scanner(System.in).nextInt();
+                    System.out.println("Enter holiday price modifier (please use comma, ex. 1,5): ");
+                    double roomPriceModifier = new Scanner(System.in).nextDouble();
+
+                    hotel.addHoliday(holidayName,startMM,startDD,endMM,endDD, roomPriceModifier);
 
                     break;
                  case 6:
@@ -235,24 +235,21 @@ public class Main
                     Scanner rDateReader = new Scanner(System.in);
 
                     System.out.println("Enter client's email: ");
-                    String clientEmail = new Scanner(System.in).nextLine();
-                    Client requestClient = hotel.getHotelClient(clientEmail);
+                    String rClientEmail = new Scanner(System.in).nextLine();
+                    Client requestClient = hotel.getHotelClient(rClientEmail);
 
                     if( requestClient == null )
                     {
                         System.out.println("Adding new client to the system");
                         System.out.println("Enter client's name: ");
                         String rClientName = new Scanner(System.in).nextLine();
-                        System.out.println("Enter client's email: ");
-                        String rClientEmail = new Scanner(System.in).nextLine();
-                        System.out.println("Enter client's type (STUDENT, NORMAL, LUXURY, PRESIDENT):");
-                       clientType rType = clientType.valueOf( new Scanner(System.in).nextLine() );
-
+                        System.out.println("Enter client's type (NORMAL, SUPER, PREMIUM, VIP):");
+                        clientType rType = clientType.valueOf( new Scanner(System.in).next(clientBonus) );
                         requestClient = new ClientData(rClientName, rClientEmail, rType);
                         hotel.addClient( requestClient );
                     }
 
-                    System.out.println("Please enter reserwation start date in a manner: YYYY MM DD");
+                    System.out.println("Please enter reservation start date in a manner: YYYY MM DD");
                     for(int i = 0; i < 3; ++i)
                         rStartDateArr[i] = rDateReader.nextInt();
 
@@ -275,8 +272,12 @@ public class Main
                         System.out.println("[ MAIN ] WARNING: Reservation rejected");                            
                     break;
                 case 10:
-                    System.out.println("[ MAIN ] INFO: Option: Print booked reservations");
-                    hotel.printBookedReservations();
+                    System.out.println("[ MAIN ] INFO: Option: Print one clients reservations");
+                    
+                    System.out.println("Enter client's email: ");
+                    String sClientEmail = new Scanner(System.in).nextLine();
+                    Client searchClient = hotel.getHotelClient(sClientEmail);
+                    hotel.printClientsReservations(searchClient);
                     break;
                 case 11:
                     System.out.println("[ MAIN ] INFO: Option: Print rooms info");

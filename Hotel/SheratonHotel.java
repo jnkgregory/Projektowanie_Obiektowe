@@ -35,7 +35,7 @@ interface Hotel
 
 
     boolean makeReservation(Client client,  ReservationInfo request);
-    void printBookedReservations();
+    void printClientsReservations(Client searchClient);
     void printRoomsInfo();
 }   
 
@@ -50,15 +50,15 @@ public static DateTime dateCh(int year,int month,int day){
 	return date;
 }
 
-public static String printDate(String date){
-                    
-                   String[] niceDate = date.split("T");
+public static String printDate(DateTime date){
+                   String string=date.toString();
+                   String[] niceDate = string.split("T");
                     
 	return niceDate[0];
 }
 
 private static SheratonHotel instance = null;
-
+private static int basePrice=100;
     TreeMap<String, RoomInfo> hotelRooms;
     ArrayList<Booking> bookedReservations;
     TreeMap<String, Holiday> holidays;
@@ -267,7 +267,6 @@ try {
     public void deleteRoom(String name)
     {
         hotelRooms.remove(name);
-        //roomPrices.remove(name);
     }
 
 
@@ -276,18 +275,32 @@ try {
     public void printRoomPrices()
     {
         System.out.println("[ printRoomPrices ] INFO: Rooms prices per day are calculated as follows:");
-        System.out.println("number of beds * room type * client type");
-        System.out.println("possible room type modifiers:");
-        System.out.println("NORMAL - x1");
-        System.out.println("HIGH - x2");
-        System.out.println("LUXURY - x3");
-        System.out.println("PRESIDENT - x4");
-        System.out.println("possible client type modifiers:");
-        System.out.println("NORMAL - x1");
-        System.out.println("SUPER - x0,9");
-        System.out.println("PREMIUM - x0,8");
-        System.out.println("VIP - x0,7");        
+        System.out.println("base price * number of beds * room type * client type * holiday modifier");
         
+        System.out.println("\t"+"base price = "+ basePrice);
+        
+        System.out.println("possible room type modifiers:");
+        
+        for (roomStandard p : roomStandard.values())
+        System.out.println("\t"+p +" - "+ p.modifier);
+
+        System.out.println("possible client type modifiers:");
+        for (clientType p : clientType.values())
+        System.out.println("\t"+p +" - "+ p.modifier);
+
+        System.out.println("possible holiday modifiers:");
+        for( Map.Entry<String, Holiday> holiday : holidays.entrySet() )
+        {
+            String name = holiday.getValue().name;
+            DateTime start = holiday.getValue().interval.getStart();
+            DateTime end = holiday.getValue().interval.getEnd();
+            double price = holiday.getValue().priceModifier;
+
+            System.out.println("\tHoliday name: " + name +
+                               "\n\t\tStart: " + printDate(start) +
+                               "\n\t\tEnd: " + printDate(end) +
+                               "\n\t\tPrice modifier: " + price);
+        }
     }
     
     @Override
@@ -355,8 +368,8 @@ if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
             double price = holiday.getValue().priceModifier;
 
             System.out.println("\tHoliday name: " + name +
-                               "\n\t\tStart: " + printDate(start.toString()) +
-                               "\n\t\tEnd: " + printDate(end.toString()) +
+                               "\n\t\tStart: " + printDate(start) +
+                               "\n\t\tEnd: " + printDate(end) +
                                "\n\t\tPrice modifier: " + price);
         }
     }
@@ -418,10 +431,6 @@ if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
         int totalPrice = 0;
         ArrayList<String> roomsToReserve = new ArrayList<String>();
 
-        if( roomsWithFreeTimeSlot.size() == 0 )
-        {
-            //return BOOKED;
-        }
 
         for( String roomID: roomsWithFreeTimeSlot )
         {
@@ -442,22 +451,57 @@ if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
             for (String roomID : roomsToReserve)
             {
                 System.out.println("[ makeReservation ] DEBUG: roomsToReserve: " + roomID);
-                hotelRooms.get(roomID).addReservation(request);
+                //hotelRooms.get(roomID).addReservation(request);
             }
             
-            makeBookedReservation(client, request, totalPrice, roomsToReserve);
+            //makeBookedReservation(client, request, totalPrice, roomsToReserve);
             BOOKED = true;
         }
+        
+if (BOOKED==true){
+int bedsNumber;
 
+for( String roomID: roomsToReserve ){
+bedsNumber=hotelRooms.get(roomID).getnOfBeds();
+if (requestedBeds<bedsNumber){ bedsNumber=requestedBeds; }
+else{ requestedBeds=requestedBeds-bedsNumber; }
+hotelRooms.get(roomID).addReservation(new Reservation(request.getStart(), request.getEnd(), bedsNumber, request.getClient()));
 
+}
+
+}
         return BOOKED;
     }
     
     
 
     @Override
-    public void printBookedReservations()
+    public void printClientsReservations(Client searchClient)
     {
+    for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() )
+        {
+        ArrayList<ReservationInfo> thisRoomReservations = room.getValue().getReservations();
+        for (ReservationInfo existingReservation : thisRoomReservations)
+                {
+                if (searchClient == existingReservation.getClient())
+                
+                System.out.println("RESERVATION: " +
+                               "\n\tRoom: " + room.getValue().getRoomName() +
+                               "\n\tStart: " + printDate(existingReservation.getStart()) +
+                               "\n\tEnd: " + printDate(existingReservation.getEnd()) +
+                               "\n\tBeds: " + existingReservation.getBedsRequested()// +
+                               //"\n\tPrice: " + booking.getTotalPrice()
+                               );
+                               
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                
+                
+                }
+        
+        
+        }
+    
+    /*
         System.out.println("[ printBookedReservations ] INFO: Printing booked reservations");
         for(Booking booking : bookedReservations )
         {
@@ -468,7 +512,7 @@ if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
                                "\n\tBeds: " + booking.getBookedReservation().getBedsRequested() +
                                "\n\tRooms: " + String.join(" , ", booking.getRoomIDs()) +
                                "\n\tPrice: " + booking.getTotalPrice());
-        }
+        }*/
     }    
     
     

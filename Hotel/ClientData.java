@@ -1,9 +1,15 @@
 enum clientType
 {
-    NORMAL,
-    SUPER,
-    PREMIUM,
-    VIP
+    NORMAL(1.0),
+    SUPER(0.9),
+    PREMIUM(0.8),
+    VIP(0.7);
+    
+        public final double modifier;
+    clientType(double modifier) {
+        this.modifier = modifier;
+    }
+    
 }
 
 interface Client
