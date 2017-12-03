@@ -2,7 +2,7 @@
 
 CURRENT_DIR=$(pwd)
 
-JODA_JAR="joda-time-2.9.9.jar"
+JODA_JAR="joda-time-2.9.9.jar:junit-4.12.jar"
 SUFFIX_OPTIONS=":lib/*;."
 COMPILER="javac8 -cp"
 COMPILED_FILES="*java"

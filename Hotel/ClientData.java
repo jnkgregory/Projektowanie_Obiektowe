@@ -1,9 +1,9 @@
 enum clientType
 {
-    STUDENT,
     NORMAL,
-    LUXURY,
-    PRESIDENT
+    SUPER,
+    PREMIUM,
+    VIP
 }
 
 interface Client

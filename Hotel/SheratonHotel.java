@@ -12,6 +12,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+import java.util.InputMismatchException;
+
 interface Hotel
 {    
     void loadRooms(String file);
@@ -22,14 +24,21 @@ interface Hotel
     RoomInfo addRoom(String name, RoomInfo room);
     void deleteRoom(String name);
 
-    void setRoomPrice(String roomID, double priceForNight);
+    //void setRoomPrice(String roomID, double priceForNight);
     void printRoomPrices();
+    
+    boolean addClient(Client client);
+    Client getHotelClient(String email);
+    void printClients();
+
 
     void addHoliday(String name, DateTime start, DateTime end);
+    void printHolidays();
     void addHolidayPriceModifier(String holidayName, double priceModifier);
     void printHolidayPriceModifiers();
 
     boolean makeReservation(Client client,  ReservationInfo request);
+    void printBookedReservations();
     void printRoomsInfo();
 }   
 
@@ -37,24 +46,34 @@ interface Hotel
 public class SheratonHotel implements Hotel
 {
 
+private static SheratonHotel instance = null;
+
     TreeMap<String, RoomInfo> hotelRooms;
-    TreeMap<String, Double> roomPrices;
+    //TreeMap<String, Double> roomPrices;
     ArrayList<Booking> bookedReservations;
     TreeMap<String, Interval> holidays;
     TreeMap<String, Double> holidayPriceModifiers;
-    TreeMap<String, ClientData> clients;
+    TreeMap<String, Client> clients;
 
 
 
-    public SheratonHotel()
+    protected SheratonHotel()
     {
         this.hotelRooms = new TreeMap<String, RoomInfo>();
-        this.roomPrices = new TreeMap<String, Double>();
+        //this.roomPrices = new TreeMap<String, Double>();
         this.bookedReservations = new ArrayList<Booking>();
         this.holidays = new TreeMap<String, Interval>();
         this.holidayPriceModifiers = new TreeMap<String, Double>();
-        this.clients= new TreeMap<String, ClientData>();
+        this.clients= new TreeMap<String, Client>();
     }
+
+public static SheratonHotel getInstance() {
+      if(instance == null) {
+         instance = new SheratonHotel();
+      }
+      return instance;
+   }
+
 
 
     public void loadClients(String file){
@@ -92,7 +111,7 @@ public class SheratonHotel implements Hotel
 try {
 	 writer = new BufferedWriter(new FileWriter(file));
 	String content = "";
-	for( Map.Entry<String, ClientData> client : clients.entrySet() ){
+	for( Map.Entry<String, Client> client : clients.entrySet() ){
             content=content+(client.getValue().getName()+','+client.getValue().getEmail()+','+(client.getValue().getType())+"\n");
                         
         }
@@ -221,6 +240,7 @@ try {
     {
         RoomInfo newRoom = new Room(name, nOfBeds, standard);
         hotelRooms.put(name, newRoom);
+//        roomPrices.put(name, price);        
         return newRoom;
     }
 /////
@@ -237,28 +257,61 @@ try {
     public void deleteRoom(String name)
     {
         hotelRooms.remove(name);
-        roomPrices.remove(name);
+        //roomPrices.remove(name);
     }
 
 
-    @Override
-    public void setRoomPrice(String roomID, double priceForNight)
-    {
-        roomPrices.put(roomID, priceForNight);
-    }
 
 
     @Override
     public void printRoomPrices()
     {
-        System.out.println("[ printRoomPrices ] INFO: Rooms prices by room IDs");
-        for( Map.Entry<String, Double> roomPrice : roomPrices.entrySet() )
-        {
-            System.out.println("\n\tRoom: "+ roomPrice.getKey() +
-                               "\n\tBasic price: "+ roomPrice.getValue());
-        }
+//        System.out.println("[ printRoomPrices ] INFO: Rooms prices by room IDs");
+  //      for( Map.Entry<String, Double> roomPrice : roomPrices.entrySet() )
+    //    {
+      //      System.out.println("\n\tRoom: "+ roomPrice.getKey() +
+        //                       "\n\tBasic price: "+ roomPrice.getValue());
+        //}
+    }
+    
+    @Override
+    public boolean addClient(Client client)
+    {
+        boolean ADDED = false;
+
+        if( clients.containsKey( client.getEmail() ) )
+            return ADDED;
+
+        clients.put( client.getEmail(), client );
+        ADDED = true;
+
+        return ADDED;
     }
 
+
+    @Override
+    public Client getHotelClient(String email)
+    {
+        return clients.get( email );
+    }
+
+
+    @Override
+    public void printClients()
+    {
+        System.out.println("[ printClients ] INFO: Printing clients, registered in the system");
+        for( Map.Entry<String, Client> client : clients.entrySet() )
+        {
+            System.out.println("\tEntry: " + client.getKey() +
+                               "\n\t\tName: " + client.getValue().getName() +
+                               "\n\t\tEmail: " + client.getValue().getEmail() +
+                               "\n\t\tType: " + client.getValue().getType());
+        }
+    }
+    
+    
+    
+    
 
     @Override
     public void addHoliday(String name, DateTime start, DateTime end)
@@ -267,6 +320,23 @@ try {
 
         holidays.put(name, holidayPeriod);
     }
+
+    @Override
+    public void printHolidays()
+    {
+        System.out.println("[ printHolidays ] INFO: Holidays, registered in the system.");
+        for( Map.Entry<String, Interval> holiday : holidays.entrySet() )
+        {
+            String name = holiday.getKey();
+            DateTime start = holiday.getValue().getStart();
+            DateTime end = holiday.getValue().getEnd();
+
+            System.out.println("\tHoliday name: " + name +
+                               "\n\t\tStart: " + start +
+                               "\n\t\tEnd: " + end);
+        }
+    }
+
 
 
     @Override
@@ -321,6 +391,14 @@ try {
         return roomsID;
     }
 
+    void makeBookedReservation(Client client, ReservationInfo request, double totalPrice, ArrayList<String> roomIDs)
+    {
+        Booking booked = new BookedReservation(client, request, totalPrice, roomIDs);
+        bookedReservations.add(booked);
+    }
+
+
+
 
     @Override
     public boolean makeReservation(Client client, ReservationInfo request)
@@ -331,6 +409,7 @@ try {
         ArrayList<String> roomsWithFreeTimeSlot = findFreeRooms( request );
 
         int collectedBeds = 0;
+        int totalPrice = 0;
         ArrayList<String> roomsToReserve = new ArrayList<String>();
 
         if( roomsWithFreeTimeSlot.size() == 0 )
@@ -359,11 +438,35 @@ try {
                 System.out.println("[ makeReservation ] DEBUG: roomsToReserve: " + roomID);
                 hotelRooms.get(roomID).addReservation(request);
             }
-
+            
+            makeBookedReservation(client, request, totalPrice, roomsToReserve);
             BOOKED = true;
         }
 
 
         return BOOKED;
     }
+    
+    
+
+    @Override
+    public void printBookedReservations()
+    {
+        System.out.println("[ printBookedReservations ] INFO: Printing booked reservations");
+        for(Booking booking : bookedReservations )
+        {
+            System.out.println("RESERVATION: " +
+                               "\n\tClient: " + booking.getClient().getEmail() +
+                               "\n\tStart: " + booking.getBookedReservation().getStart() +
+                               "\n\tEnd: " + booking.getBookedReservation().getEnd() +
+                               "\n\tBeds: " + booking.getBookedReservation().getBedsRequested() +
+                               "\n\tRooms: " + String.join(" , ", booking.getRoomIDs()) +
+                               "\n\tPrice: " + booking.getTotalPrice());
+        }
+    }    
+    
+    
+    
+    
+    
 }
