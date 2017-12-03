@@ -3,6 +3,7 @@ import java.util.*;
 import java.time.LocalDate;
 import java.time.Period;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.Interval;
 
 import java.io.BufferedWriter;
@@ -34,7 +35,7 @@ interface Hotel
     void printHolidays();
 
 
-    boolean makeReservation(Client client,  ReservationInfo request);
+    boolean makeReservation(Client client,  ReservationInfo request, roomStandard minStandard);
     void printClientsReservations(Client searchClient);
     void printRoomsInfo();
 }   
@@ -59,10 +60,9 @@ public static String printDate(DateTime date){
 
 private static SheratonHotel instance = null;
 private static int basePrice=100;
+
     TreeMap<String, RoomInfo> hotelRooms;
-    ArrayList<Booking> bookedReservations;
     TreeMap<String, Holiday> holidays;
-    //TreeMap<String, Double> holidayPriceModifiers;
     TreeMap<String, Client> clients;
 
 
@@ -70,10 +70,7 @@ private static int basePrice=100;
     protected SheratonHotel()
     {
         this.hotelRooms = new TreeMap<String, RoomInfo>();
-        //this.roomPrices = new TreeMap<String, Double>();
-        this.bookedReservations = new ArrayList<Booking>();
         this.holidays = new TreeMap<String, Holiday>();
-        //this.holidayPriceModifiers = new TreeMap<String, Double>();
         this.clients= new TreeMap<String, Client>();
     }
 
@@ -410,17 +407,11 @@ if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
         return roomsID;
     }
 
-    void makeBookedReservation(Client client, ReservationInfo request, double totalPrice, ArrayList<String> roomIDs)
-    {
-        Booking booked = new BookedReservation(client, request, totalPrice, roomIDs);
-        bookedReservations.add(booked);
-    }
-
 
 
 
     @Override
-    public boolean makeReservation(Client client, ReservationInfo request)
+    public boolean makeReservation(Client client, ReservationInfo request, roomStandard minStandard)
     {
         boolean BOOKED = false;
 
@@ -434,6 +425,7 @@ if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
 
         for( String roomID: roomsWithFreeTimeSlot )
         {
+        if (minStandard.modifier <= hotelRooms.get(roomID).getRoomStandard().modifier){
             System.out.println("[ makeReservation ] DEBUG: Room with free timeslot: "+roomID+", nOfBeds: "
                     +hotelRooms.get(roomID).getnOfBeds() );
 
@@ -442,7 +434,8 @@ if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
             collectedBeds = collectedBeds + hotelRooms.get(roomID).getnOfBeds();
             roomsToReserve.add(roomID);
 
-
+	}
+	else { System.out.println("[ makeReservation ] DEBUG: standard too low"); }
         }
 
         if(collectedBeds >= requestedBeds )
@@ -478,24 +471,55 @@ hotelRooms.get(roomID).addReservation(new Reservation(request.getStart(), reques
     @Override
     public void printClientsReservations(Client searchClient)
     {
+    double price=0;
+    Days d=null;
+    int days;
+    int overlapDays;
+    Interval interval=null;
+    Interval overlap=null;
     for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() )
         {
         ArrayList<ReservationInfo> thisRoomReservations = room.getValue().getReservations();
         for (ReservationInfo existingReservation : thisRoomReservations)
                 {
-                if (searchClient == existingReservation.getClient())
+                if (searchClient == existingReservation.getClient()){
+                price=0;
+                
+                interval = new Interval( existingReservation.getStart(),existingReservation.getEnd() );
+                d = Days.daysBetween(existingReservation.getStart(), existingReservation.getEnd());
+                days = d.getDays();
+
+             for( Map.Entry<String, Holiday> holiday : holidays.entrySet() )
+        {
+            overlap = interval.overlap( holiday.getValue().interval );
+            if (overlap != null){
+            d = Days.daysBetween(overlap.getStart(),overlap.getEnd());
+            overlapDays=d.getDays();
+            price=price + (basePrice * room.getValue().getRoomStandard().modifier * searchClient.getType().modifier * overlapDays * holiday.getValue().priceModifier);
+            days=days-overlapDays;
+            
+            }
+            
+            
+        }
+                
+                
+                
+                
+                
+                
+                price=price+(basePrice * room.getValue().getRoomStandard().modifier * searchClient.getType().modifier * days);
                 
                 System.out.println("RESERVATION: " +
                                "\n\tRoom: " + room.getValue().getRoomName() +
                                "\n\tStart: " + printDate(existingReservation.getStart()) +
                                "\n\tEnd: " + printDate(existingReservation.getEnd()) +
-                               "\n\tBeds: " + existingReservation.getBedsRequested()// +
-                               //"\n\tPrice: " + booking.getTotalPrice()
+                               "\n\tBeds: " + existingReservation.getBedsRequested() +
+                               "\n\tPrice: " + price
                                );
                                
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                
-                
+
+                }
                 }
         
         

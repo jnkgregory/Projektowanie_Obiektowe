@@ -260,11 +260,15 @@ public class Main
                     System.out.println("Please enter no of needed beds");
                     bedsNumber = rDateReader.nextInt();
 
+                    System.out.println("Please enter minimum room standard (NORMAL, HIGH, LUXURY, PRESIDENT)");
+		    roomStandard rstandard = roomStandard.valueOf( new Scanner(System.in).next(roomType) );
+
+
                     DateTime rStartDate = new DateTime(rStartDateArr[0], rStartDateArr[1], rStartDateArr[2], 0, 0, 0, 0);
                     DateTime rEndDate = new DateTime(rEndDateArr[0], rEndDateArr[1], rEndDateArr[2], 0, 0, 0, 0);
 
                     ReservationInfo reservationRequest = new Reservation(rStartDate, rEndDate, bedsNumber, requestClient);
-                    boolean reservationSuccess = hotel.makeReservation( requestClient, reservationRequest );
+                    boolean reservationSuccess = hotel.makeReservation( requestClient, reservationRequest, rstandard );
 
                     if( reservationSuccess )
                         System.out.println("[ MAIN ] INFO: Adding reservation success");
@@ -277,7 +281,9 @@ public class Main
                     System.out.println("Enter client's email: ");
                     String sClientEmail = new Scanner(System.in).nextLine();
                     Client searchClient = hotel.getHotelClient(sClientEmail);
-                    hotel.printClientsReservations(searchClient);
+                    if( searchClient == null ){ System.out.println("No such client in  system"); }
+                    else{ hotel.printClientsReservations(searchClient); }
+                                        
                     break;
                 case 11:
                     System.out.println("[ MAIN ] INFO: Option: Print rooms info");
