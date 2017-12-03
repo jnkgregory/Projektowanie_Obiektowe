@@ -1,5 +1,13 @@
 import java.util.*;
 
+enum roomStandard
+{
+    NORMAL,
+    HIGH,
+    LUXURY,
+    PRESIDENT
+}
+
 //nazwa pokoju i ilość ludzi w nim zakwaterowanych
 interface RoomInfo
 {

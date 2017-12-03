@@ -21,8 +21,13 @@ import java.util.InputMismatchException;
 // https://stackoverflow.com/questions/18938152/check-if-two-date-periods-overlap
 
 
+
 public class Main
 {
+
+
+
+
     static int printMainMenu()
     {
         int chosenOption = 0;
@@ -96,19 +101,30 @@ public class Main
 
 
 
+
+
 	  hotel.loadClients("clients.txt");  
           hotel.loadRooms("danu.txt");
    
         //System.out.println("\n[ main ] DEBUG: Status dokonania rezerwacji: "+reserved);
         //hotel.printRoomsInfo();
 
-        hotel.addHolidayPriceModifier("Easter", 1.5);
-        hotel.addHolidayPriceModifier("Majowy Weekend", 1.8);
-        hotel.addHolidayPriceModifier("Boże_Ciało", 1.4);
-        hotel.addHolidayPriceModifier("Boże_Narodzenie", 2.5);
-        hotel.addHolidayPriceModifier("Sylwester", 4.5);
-
-
+        //hotel.addHolidayPriceModifier("Easter", 1.5);
+        //hotel.addHolidayPriceModifier("Majowy Weekend", 1.8);
+        //hotel.addHolidayPriceModifier("Boże_Ciało", 1.4);
+        //hotel.addHolidayPriceModifier("Boże_Narodzenie", 2.5);
+        //hotel.addHolidayPriceModifier("Sylwester", 4.5);
+        
+        hotel.addHoliday("Boże_Narodzenie",12,22,12,28, 2.5);
+        hotel.addHoliday("Majowy Weekend",04,29,05,05, 1.8);
+        hotel.addHoliday("Sylwester",12,29,01,03, 4.5);
+        
+        
+//        System.out.println("/////////////////////////////////////////////////////////////");
+  // current time
+//
+//System.out.println(month);
+//System.out.println("/////////////////////////////////////////////////////////////");
         System.out.println("\n");
 
 	  hotel.saveClients("clients.txt");  
@@ -170,25 +186,25 @@ public class Main
                     hotel.printRoomPrices();
                     break;
                 case 5:
-                    System.out.println("[ MAIN ] INFO: Adding holiday");
+                   // System.out.println("[ MAIN ] INFO: Adding holiday");
                    
-                    int[] startDateArr = new int[3];
-                    int[] endDateArr = new int[3];
-                    Scanner dateReader = new Scanner(System.in);
-
-                    System.out.println("Enter Holiday's name: ");
-                    String holidayName = new Scanner(System.in).nextLine();
-                    System.out.println("Please enter start date in a manner: YYYY MM DD");
-                    for(int i = 0; i < 3; ++i)
-                        startDateArr[i] = dateReader.nextInt();
-                    System.out.println("Please enter end date in a manner: YYYY MM DD");
-                    for(int i = 0; i < 3; ++i)
-                        endDateArr[i] = dateReader.nextInt();
-
-                    DateTime hStartDate = new DateTime(startDateArr[0], startDateArr[1], startDateArr[2], 0, 0, 0, 0);
-                    DateTime hEndDate = new DateTime(endDateArr[0], endDateArr[1], endDateArr[2], 0, 0, 0, 0);
-
-                    hotel.addHoliday(holidayName, hStartDate, hEndDate);
+//                    int[] startDateArr = new int[3];
+  //                  int[] endDateArr = new int[3];
+    //                Scanner dateReader = new Scanner(System.in);
+//
+  //                  System.out.println("Enter Holiday's name: ");
+    //                String holidayName = new Scanner(System.in).nextLine();
+      //              System.out.println("Please enter start date in a manner: YYYY MM DD");
+        //            for(int i = 0; i < 3; ++i)
+          //              startDateArr[i] = dateReader.nextInt();
+            //        System.out.println("Please enter end date in a manner: YYYY MM DD");
+              //      for(int i = 0; i < 3; ++i)
+                //        endDateArr[i] = dateReader.nextInt();
+//
+  //                  DateTime hStartDate = new DateTime(startDateArr[0], startDateArr[1], startDateArr[2], 0, 0, 0, 0);
+    //                DateTime hEndDate = new DateTime(endDateArr[0], endDateArr[1], endDateArr[2], 0, 0, 0, 0);
+//
+  //                  hotel.addHoliday(holidayName, hStartDate, hEndDate);
 
                     break;
                  case 6:
@@ -197,19 +213,19 @@ public class Main
                     break;                    
              
                 case 7:
-                    System.out.println("[ MAIN ] INFO: Adding holiday's price modifier");
+                    //System.out.println("[ MAIN ] INFO: Adding holiday's price modifier");
 
-                    System.out.println("Enter Holiday's name: ");
-                    String holiday = new Scanner(System.in).nextLine();
-                    System.out.println("Enter holiday price modifier (please use comma, ex. 1,5): ");
-                    double roomPriceModifier = new Scanner(System.in).nextDouble();
+//                    System.out.println("Enter Holiday's name: ");
+  //                  String holiday = new Scanner(System.in).nextLine();
+    //                System.out.println("Enter holiday price modifier (please use comma, ex. 1,5): ");
+      //              double roomPriceModifier = new Scanner(System.in).nextDouble();
 
-                    hotel.addHolidayPriceModifier(holiday, roomPriceModifier);
+        //            hotel.addHolidayPriceModifier(holiday, roomPriceModifier);
                     break;
                 case 8:
-                    System.out.println("[ MAIN ] INFO: Printing holidays price modifiers");
+          //          System.out.println("[ MAIN ] INFO: Printing holidays price modifiers");
 
-                    hotel.printHolidayPriceModifiers();
+            //        hotel.printHolidayPriceModifiers();
                     break;
                 case 9:
                     System.out.println("[ MAIN ] INFO: Option: Add reservation");

@@ -1,7 +1,7 @@
-public enum roomStandard
+/*public enum roomStandard
 {
     NORMAL,
     HIGH,
     LUXURY,
     PRESIDENT
-}
+}*/

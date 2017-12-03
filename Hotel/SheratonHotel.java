@@ -24,18 +24,15 @@ interface Hotel
     RoomInfo addRoom(String name, RoomInfo room);
     void deleteRoom(String name);
 
-    //void setRoomPrice(String roomID, double priceForNight);
     void printRoomPrices();
     
     boolean addClient(Client client);
     Client getHotelClient(String email);
     void printClients();
 
-
-    void addHoliday(String name, DateTime start, DateTime end);
+    void addHoliday(String name, int startMM, int startDD, int endMM, int endDD, double price);
     void printHolidays();
-    void addHolidayPriceModifier(String holidayName, double priceModifier);
-    void printHolidayPriceModifiers();
+
 
     boolean makeReservation(Client client,  ReservationInfo request);
     void printBookedReservations();
@@ -46,13 +43,26 @@ interface Hotel
 public class SheratonHotel implements Hotel
 {
 
+public static DateTime dateCh(int year,int month,int day){
+                    
+                   
+                    DateTime date = new DateTime(year, month, day, 0, 0, 0, 0);
+	return date;
+}
+
+public static String printDate(String date){
+                    
+                   String[] niceDate = date.split("T");
+                    
+	return niceDate[0];
+}
+
 private static SheratonHotel instance = null;
 
     TreeMap<String, RoomInfo> hotelRooms;
-    //TreeMap<String, Double> roomPrices;
     ArrayList<Booking> bookedReservations;
-    TreeMap<String, Interval> holidays;
-    TreeMap<String, Double> holidayPriceModifiers;
+    TreeMap<String, Holiday> holidays;
+    //TreeMap<String, Double> holidayPriceModifiers;
     TreeMap<String, Client> clients;
 
 
@@ -62,8 +72,8 @@ private static SheratonHotel instance = null;
         this.hotelRooms = new TreeMap<String, RoomInfo>();
         //this.roomPrices = new TreeMap<String, Double>();
         this.bookedReservations = new ArrayList<Booking>();
-        this.holidays = new TreeMap<String, Interval>();
-        this.holidayPriceModifiers = new TreeMap<String, Double>();
+        this.holidays = new TreeMap<String, Holiday>();
+        //this.holidayPriceModifiers = new TreeMap<String, Double>();
         this.clients= new TreeMap<String, Client>();
     }
 
@@ -262,16 +272,22 @@ try {
 
 
 
-
     @Override
     public void printRoomPrices()
     {
-//        System.out.println("[ printRoomPrices ] INFO: Rooms prices by room IDs");
-  //      for( Map.Entry<String, Double> roomPrice : roomPrices.entrySet() )
-    //    {
-      //      System.out.println("\n\tRoom: "+ roomPrice.getKey() +
-        //                       "\n\tBasic price: "+ roomPrice.getValue());
-        //}
+        System.out.println("[ printRoomPrices ] INFO: Rooms prices per day are calculated as follows:");
+        System.out.println("number of beds * room type * client type");
+        System.out.println("possible room type modifiers:");
+        System.out.println("NORMAL - x1");
+        System.out.println("HIGH - x2");
+        System.out.println("LUXURY - x3");
+        System.out.println("PRESIDENT - x4");
+        System.out.println("possible client type modifiers:");
+        System.out.println("NORMAL - x1");
+        System.out.println("SUPER - x0,9");
+        System.out.println("PREMIUM - x0,8");
+        System.out.println("VIP - x0,7");        
+        
     }
     
     @Override
@@ -314,49 +330,39 @@ try {
     
 
     @Override
-    public void addHoliday(String name, DateTime start, DateTime end)
+    public void addHoliday(String name, int startMM, int startDD, int endMM, int endDD, double price)
     {
+    DateTime currentTime = new DateTime();
+int currentYear = currentTime.getYear();
+DateTime start = dateCh(currentYear,startMM,startDD);
+if (start.compareTo(currentTime) < 0){ start = dateCh(currentYear+1,startMM,startDD);}
+DateTime end = dateCh(currentYear,endMM,endDD);
+if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
         Interval holidayPeriod = new Interval(start, end);
-
-        holidays.put(name, holidayPeriod);
+//hotel.addHoliday("Boże_Narodzenie",,dateCh(currentYear,12,28), 1.8);
+        holidays.put(name, new Holiday(name,holidayPeriod,price));
     }
 
     @Override
     public void printHolidays()
     {
         System.out.println("[ printHolidays ] INFO: Holidays, registered in the system.");
-        for( Map.Entry<String, Interval> holiday : holidays.entrySet() )
+        for( Map.Entry<String, Holiday> holiday : holidays.entrySet() )
         {
-            String name = holiday.getKey();
-            DateTime start = holiday.getValue().getStart();
-            DateTime end = holiday.getValue().getEnd();
+            String name = holiday.getValue().name;
+            DateTime start = holiday.getValue().interval.getStart();
+            DateTime end = holiday.getValue().interval.getEnd();
+            double price = holiday.getValue().priceModifier;
 
             System.out.println("\tHoliday name: " + name +
-                               "\n\t\tStart: " + start +
-                               "\n\t\tEnd: " + end);
+                               "\n\t\tStart: " + printDate(start.toString()) +
+                               "\n\t\tEnd: " + printDate(end.toString()) +
+                               "\n\t\tPrice modifier: " + price);
         }
     }
 
 
 
-    @Override
-    public void addHolidayPriceModifier(String holidayName, double priceModifier)
-    {
-        holidayPriceModifiers.put(holidayName, priceModifier);
-    }
-
-
-    @Override
-    public void printHolidayPriceModifiers()
-    {
-        System.out.println("[ printHolidayPriceModifiers ] INFO: Holidays price modifiers:");
-
-        for( Map.Entry<String, Double> holiday : holidayPriceModifiers.entrySet() )
-        {
-            System.out.println("\tHoliday: " + holiday.getKey() +
-                               "\n\tPrice Modifier: " + holiday.getValue() + "\n");
-        }
-    }
 
 
     private ArrayList<String> findFreeRooms(ReservationInfo newReservation)
