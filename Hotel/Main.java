@@ -128,9 +128,9 @@ public class Main
         hotel.addHoliday("Sylwester",12,29,01,03, 4.5);
         */
         
-          hotel.loadClients("clients.txt");  
-          hotel.loadRooms("danu.txt");
-   	  hotel.loadHolidays("holidays.txt");  
+          hotel.loadClients("clientsIN.txt");  
+          hotel.loadRooms("daneIN.txt");
+   	  hotel.loadHolidays("holidaysIN.txt");  
         
         
 //        System.out.println("/////////////////////////////////////////////////////////////");
@@ -392,8 +392,8 @@ System.out.println("\n---------------------------------------------------\n");
 
         }
 
-	  hotel.saveHolidays("holidaysu.txt");  
-	  hotel.saveClients("clientsu.txt");  
-          hotel.saveRooms("dane.txt");    
+	  hotel.saveHolidays("holidaysOUT.txt");  
+	  hotel.saveClients("clientsOUT.txt");  
+          hotel.saveRooms("daneOUT.txt");    
     }
 }
