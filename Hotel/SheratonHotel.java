@@ -136,6 +136,61 @@ try {
 }
     
 
+    public void loadHolidays(String file){
+    BufferedReader reader =null;
+    String line = "";
+
+        try {
+	    reader = new BufferedReader(new FileReader(file));
+            while ((line = reader.readLine()) != null) {
+                String[] rekord = line.split(",");
+                String[] dates = rekord[1].split("/");
+		this.holidays.put(rekord[0], new Holiday(rekord[0], new Interval(new DateTime(dates[0]),new DateTime(dates[1])), Double.parseDouble(rekord[2])));
+		
+            }
+
+        } catch (FileNotFoundException e) {
+        System.out.println("nie ma takiego pliku: "+file);
+//            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+
+    public void saveHolidays(String file){
+        BufferedWriter writer=null;		
+try {
+	 writer = new BufferedWriter(new FileWriter(file));
+	String content = "";
+	for( Map.Entry<String, Holiday> holiday : holidays.entrySet() ){
+            content=content+(holiday.getValue().name+','+holiday.getValue().interval+','+(holiday.getValue().priceModifier)+"\n");
+	
+                        
+        }
+			writer.write(content);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (writer != null)
+					writer.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+}
+
+
     @Override
     public void loadRooms(String file)
     {
@@ -314,6 +369,30 @@ try {
         return ADDED;
     }
 
+public void deleteClient(Client client){
+        
+for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() )
+        {
+
+        ArrayList<ReservationInfo> thisRoomReservations = room.getValue().getReservations();
+	Iterator<ReservationInfo> i = thisRoomReservations.iterator();
+while (i.hasNext()) {
+   ReservationInfo existingReservation = i.next(); 
+   
+if (client == existingReservation.getClient()){
+   System.out.println("[ deleteClient ] INFO: Deleting clients reservation");
+   i.remove();
+   }
+}
+
+        
+}
+
+
+        clients.remove( client.getEmail(), client );
+        System.out.println("[ deleteClients ] INFO: Deleted Client");
+    }
+
 
     @Override
     public Client getHotelClient(String email)
@@ -371,7 +450,10 @@ if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
         }
     }
 
-
+    public void deleteHoliday(String name)
+    {
+        holidays.remove(name);
+    }
 
 
 
@@ -499,15 +581,9 @@ hotelRooms.get(roomID).addReservation(new Reservation(request.getStart(), reques
             days=days-overlapDays;
             
             }
-            
-            
+      
         }
-                
-                
-                
-                
-                
-                
+             
                 price=price+(basePrice * room.getValue().getRoomStandard().modifier * searchClient.getType().modifier * days);
                 
                 System.out.println("RESERVATION: " +
@@ -524,23 +600,37 @@ hotelRooms.get(roomID).addReservation(new Reservation(request.getStart(), reques
         
         
         }
-    
-    /*
-        System.out.println("[ printBookedReservations ] INFO: Printing booked reservations");
-        for(Booking booking : bookedReservations )
-        {
-            System.out.println("RESERVATION: " +
-                               "\n\tClient: " + booking.getClient().getEmail() +
-                               "\n\tStart: " + booking.getBookedReservation().getStart() +
-                               "\n\tEnd: " + booking.getBookedReservation().getEnd() +
-                               "\n\tBeds: " + booking.getBookedReservation().getBedsRequested() +
-                               "\n\tRooms: " + String.join(" , ", booking.getRoomIDs()) +
-                               "\n\tPrice: " + booking.getTotalPrice());
-        }*/
+
     }    
     
     
-    
+public void deleteReservation(ReservationInfo reservation){
+        
+for( Map.Entry<String, RoomInfo> room : hotelRooms.entrySet() )
+        {
+        
+        ArrayList<ReservationInfo> thisRoomReservations = room.getValue().getReservations();
+	Iterator<ReservationInfo> i = thisRoomReservations.iterator();
+
+
+
+while (i.hasNext()) {
+   ReservationInfo existingReservation = i.next(); 
+   
+     if( (printDate(existingReservation.getStart()).equals(printDate(reservation.getStart())) ) &&
+      (printDate(existingReservation.getEnd()).equals(printDate(reservation.getEnd())) ) &&
+      (existingReservation.getClient() == reservation.getClient() ) ){
+   System.out.println("[ deleteReservation ] INFO: Deleted reservation");
+   i.remove();
+       }
+   
+  }
+
+}
+
+
+
+    }    
     
     
 }
