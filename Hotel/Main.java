@@ -380,7 +380,7 @@ public class Main
                 default:
                     break;
             }
-            }catch (InputMismatchException e) {
+            }catch (InputMismatchException | IllegalArgumentException e) {
             System.out.println("ERROR Input format is incorrect please try again");
         }
             
