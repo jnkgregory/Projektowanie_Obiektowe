@@ -2,10 +2,17 @@ import java.util.*;
 
 enum roomStandard
 {
-    NORMAL,
-    HIGH,
-    LUXURY,
-    PRESIDENT
+    NORMAL(1.0),
+    HIGH(2.0),
+    LUXURY(3.0),
+    PRESIDENT(4.0);
+    
+    public final double modifier;
+    roomStandard(double modifier) {
+        this.modifier = modifier;
+    }
+    
+    
 }
 
 //nazwa pokoju i ilość ludzi w nim zakwaterowanych

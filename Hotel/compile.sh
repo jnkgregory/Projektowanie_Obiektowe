@@ -2,9 +2,9 @@
 
 CURRENT_DIR=$(pwd)
 
-JODA_JAR="joda-time-2.9.9.jar"
+JODA_JAR="joda-time-2.9.9.jar:junit-4.12.jar"
 SUFFIX_OPTIONS=":lib/*;."
-COMPILER="javac -cp"
+COMPILER="javac8 -cp"
 COMPILED_FILES="*java"
 
 FULL_COMPILE_CMD='${COMPILER} "${CURRENT_DIR}/${JODA_JAR}${SUFFIX_OPTIONS}" ${COMPILED_FILES}'

@@ -1,0 +1,4 @@
+Ada,ada@wp.pl,NORMAL
+Basia,basia@wp.pl,SUPER
+Celina,celina@wp.pl,PREMIUM
+Zenon,zenon@wp.pl,VIP
