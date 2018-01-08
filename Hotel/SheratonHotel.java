@@ -23,6 +23,7 @@ interface Hotel
     
     RoomInfo addRoom(String name, int nOfBeds, roomStandard standard);
     RoomInfo addRoom(String name, RoomInfo room);
+
     void deleteRoom(String name);
 
     void printRoomPrices();
@@ -33,6 +34,7 @@ interface Hotel
 
     void addHoliday(String name, int startMM, int startDD, int endMM, int endDD, double price);
     void printHolidays();
+
 
 
     boolean makeReservation(Client client,  ReservationInfo request, roomStandard minStandard);
@@ -62,14 +64,17 @@ private static SheratonHotel instance = null;
 private static int basePrice=100;
 
     TreeMap<String, RoomInfo> hotelRooms;
+
     TreeMap<String, Holiday> holidays;
     TreeMap<String, Client> clients;
+
 
 
 
     protected SheratonHotel()
     {
         this.hotelRooms = new TreeMap<String, RoomInfo>();
+
         this.holidays = new TreeMap<String, Holiday>();
         this.clients= new TreeMap<String, Client>();
     }
@@ -491,7 +496,6 @@ if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
 
 
 
-
     @Override
     public boolean makeReservation(Client client, ReservationInfo request, roomStandard minStandard)
     {
@@ -501,6 +505,7 @@ if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
         ArrayList<String> roomsWithFreeTimeSlot = findFreeRooms( request );
 
         int collectedBeds = 0;
+
         int totalPrice = 0;
         ArrayList<String> roomsToReserve = new ArrayList<String>();
 
@@ -530,6 +535,7 @@ if (end.compareTo(currentTime) < 0){ end = dateCh(currentYear+1,endMM,endDD);}
             }
             
             //makeBookedReservation(client, request, totalPrice, roomsToReserve);
+
             BOOKED = true;
         }
         
@@ -547,7 +553,6 @@ hotelRooms.get(roomID).addReservation(new Reservation(request.getStart(), reques
 }
         return BOOKED;
     }
-    
     
 
     @Override
@@ -631,6 +636,4 @@ while (i.hasNext()) {
 
 
     }    
-    
-    
 }

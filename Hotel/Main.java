@@ -84,7 +84,7 @@ public class Main
         ClientData client2 = new ClientData("Zenona", "enon@wp.pl", clientType.NORMAL);
 	hotel.clients.put(client.getEmail(),client);
 	hotel.clients.put(client2.getEmail(),client2);
-	
+
         ReservationInfo reservation = new Reservation( new DateTime(2017, 12, 5, 0, 0, 0, 0),
                                                        new DateTime(2017, 12, 14, 0, 0, 0, 0),
                                                        4,
@@ -172,6 +172,7 @@ public class Main
                     roomStandard standard = roomStandard.valueOf( new Scanner(System.in).next(roomType) );
 
                     hotel.addRoom(roomName, nOfBeds, standard);
+
                     break;
                 case 2:
                     System.out.println("[ MAIN ] INFO: Deleting room");
@@ -231,6 +232,7 @@ public class Main
                     hotel.addHoliday(holidayName,startMM,startDD,endMM,endDD, roomPriceModifier);
 
                     break;
+
                 case 8:
                 System.out.println("[ MAIN ] INFO: Deleting holiday");
                 System.out.println("Enter Holiday's name: ");
@@ -253,21 +255,27 @@ public class Main
                     Scanner rDateReader = new Scanner(System.in);
 
                     System.out.println("Enter client's email: ");
+
                     String rClientEmail = new Scanner(System.in).nextLine();
                     Client requestClient = hotel.getHotelClient(rClientEmail);
+
 
                     if( requestClient == null )
                     {
                         System.out.println("Adding new client to the system");
                         System.out.println("Enter client's name: ");
                         String rClientName = new Scanner(System.in).nextLine();
+
                         System.out.println("Enter client's type (NORMAL, SUPER, PREMIUM, VIP):");
                         clientType rType = clientType.valueOf( new Scanner(System.in).next(clientBonus) );
+
                         requestClient = new ClientData(rClientName, rClientEmail, rType);
                         hotel.addClient( requestClient );
                     }
 
+
                     System.out.println("Please enter reservation start date in a manner: YYYY MM DD");
+
                     for(int i = 0; i < 3; ++i)
                         rStartDateArr[i] = rDateReader.nextInt();
 
@@ -278,15 +286,19 @@ public class Main
                     System.out.println("Please enter no of needed beds");
                     bedsNumber = rDateReader.nextInt();
 
+
                     System.out.println("Please enter minimum room standard (NORMAL, HIGH, LUXURY, PRESIDENT)");
 		    roomStandard rstandard = roomStandard.valueOf( new Scanner(System.in).next(roomType) );
+
 
 
                     DateTime rStartDate = new DateTime(rStartDateArr[0], rStartDateArr[1], rStartDateArr[2], 0, 0, 0, 0);
                     DateTime rEndDate = new DateTime(rEndDateArr[0], rEndDateArr[1], rEndDateArr[2], 0, 0, 0, 0);
 
                     ReservationInfo reservationRequest = new Reservation(rStartDate, rEndDate, bedsNumber, requestClient);
+
                     boolean reservationSuccess = hotel.makeReservation( requestClient, reservationRequest, rstandard );
+
 
                     if( reservationSuccess )
                         System.out.println("[ MAIN ] INFO: Adding reservation success");
@@ -372,6 +384,7 @@ public class Main
                 fileName = new Scanner(System.in).nextLine();
                 hotel.saveHolidays(fileName);
                 break;
+
 
                 case 99:
                     System.out.println("[ MAIN ] Exiting the system.");
