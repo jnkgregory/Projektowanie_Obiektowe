@@ -9,12 +9,20 @@ public class Shapes
     {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-        Mat img = Imgcodecs.imread("square.png", Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
+        Mat img = Imgcodecs.imread("ellipse.png", Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
+        Mat hierarchy = new Mat();
         List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
         System.out.println("[ Shapes ]INFO: Obraz wczytany");
-        Imgproc.findContours(img, contours, new Mat(), Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
-        for(MatOfPoint element : contours)
-        { System.out.println("[ Shapes ] INFO: Contour: " + element); }
+        
+        
+        Imgproc.findContours(img, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+        System.out.println("\n[ Shapes ] INFO: contours: " + contours.get(0).rows()+ "\n");
 
+        for (MatOfPoint cnt : contours) 
+        {
+            MatOfPoint2f curve = new MatOfPoint2f(cnt.toArray());
+
+            System.out.println("[ Shapes ] INFO: curve: " + curve + ", cnt: " + cnt + ", hierarchy: "+hierarchy.get(0,0)[0] );
+        }
     }
 }
