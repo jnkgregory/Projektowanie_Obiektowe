@@ -15,14 +15,12 @@ public class Shapes
         System.out.println("[ Shapes ]INFO: Obraz wczytany");
         
         
-        Imgproc.findContours(img, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.findContours(img, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_NONE);
         System.out.println("\n[ Shapes ] INFO: contours: " + contours.get(0).rows()+ "\n");
 
-        for (MatOfPoint cnt : contours) 
+        for (int i = 0; i < contours.size(); ++i) 
         {
-            MatOfPoint2f curve = new MatOfPoint2f(cnt.toArray());
-
-            System.out.println("[ Shapes ] INFO: curve: " + curve + ", cnt: " + cnt + ", hierarchy: "+hierarchy.get(0,0)[0] );
+            System.out.println(contours.get(i).getClass().getName() + ", " + contours.get(i).size());
         }
     }
 }
