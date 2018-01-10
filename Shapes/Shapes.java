@@ -3,6 +3,10 @@ import org.opencv.core.*;
 import org.opencv.imgcodecs.*;
 import java.util.*;
 
+// https://docs.opencv.org/java/2.4.9/org/opencv/imgproc/Imgproc.html#findContours(org.opencv.core.Mat, java.util.List, org.opencv.core.Mat, int, int)
+// https://docs.opencv.org/java/2.4.8/org/opencv/core/MatOfPoint.html
+// https://docs.opencv.org/java/2.4.8/org/opencv/core/Point.html
+
 public class Shapes
 {
     public static void main(String[] args)
@@ -11,16 +15,28 @@ public class Shapes
 
         Mat img = Imgcodecs.imread("ellipse.png", Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
         Mat hierarchy = new Mat();
-        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-        System.out.println("[ Shapes ]INFO: Obraz wczytany");
-        
+        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();      
         
         Imgproc.findContours(img, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_NONE);
-        System.out.println("\n[ Shapes ] INFO: contours: " + contours.get(0).rows()+ "\n");
 
+        //System.out.println("\n[ Shapes ] INFO: contours: " + contours.get(0).rows()+ "\n");
+        System.out.println("[ Shapes ] INFO: contours size: " + contours.size());
         for (int i = 0; i < contours.size(); ++i) 
         {
             System.out.println(contours.get(i).getClass().getName() + ", " + contours.get(i).size());
+            for(int j = 0; j < contours.get(i).rows(); ++j)
+            {
+                //System.out.println(contours.get(i));
+                Point[] points = contours.get(i).toArray();
+                //System.out.println("[ Shapes ] INFO: points length: " + points.length);
+
+                //for(Point point: points)
+                //{
+                //    System.out.println("[ Shapes ] INFO: point: "+ point.toString());
+                //}
+            }
         }
+        
+        
     }
 }
