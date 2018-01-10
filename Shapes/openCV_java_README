@@ -1,0 +1,7 @@
+DODATKOWE_POTRZEBNE_PLIKI:
+opencv-340.jar
+libopencv_java340.so
+KOMPILACJA:
+javac -cp "/home/[user]/Pulpit/opencv-340.jar:*;." Hello.java
+RUN:
+LD_LIBRARY_PATH=/home/[user]/Pulpit/ java -cp "/home/[user]/Pulpit/opencv-340.jar:." Hello
