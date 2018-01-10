@@ -9,7 +9,12 @@ public class Shapes
     {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-        Mat img = Imgcodecs.imread("square.png");
-        System.out.println(img);
+        Mat img = Imgcodecs.imread("square.png", Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
+        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+        System.out.println("[ Shapes ]INFO: Obraz wczytany");
+        Imgproc.findContours(img, contours, new Mat(), Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
+        for(MatOfPoint element : contours)
+        { System.out.println("[ Shapes ] INFO: Contour: " + element); }
+
     }
 }
