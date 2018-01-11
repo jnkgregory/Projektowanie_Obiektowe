@@ -37,37 +37,11 @@ public class Shapes
                 //}
             }
         }
-        
-        //Mat destination = new Mat(img.rows(), img.cols(), img.type());
-        //Imgcodecs.imwrite("Shapes_output.png", img);
 
-        MatOfPoint2f approxCurve = new MatOfPoint2f();
-        //For each contour found
-        for (int i=0; i<contours.size(); i++)
-        {
-            //Convert contours(i) from MatOfPoint to MatOfPoint2f
-            MatOfPoint2f contour2f = new MatOfPoint2f( contours.get(i).toArray() );
-            //Processing on mMOP2f1 which is in type MatOfPoint2f
-            double approxDistance = Imgproc.arcLength(contour2f, true)*0.02;
-            Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
-
-            //Convert back to MatOfPoint
-            MatOfPoint points = new MatOfPoint( approxCurve.toArray() );
-
-            // Get bounding rect of contour
-            Rect rect = Imgproc.boundingRect(points);
-
-            //draw enclosing rectangle (all same color, but you could use variable i to make them unique)
-            Imgproc.rectangle(img,
-                    new Point(rect.x,rect.y),
-                    new Point(rect.x+rect.width,rect.y+rect.height),
-                    new Scalar(20, 0, 0, 20),3);
-
-        }
 
     // Test of detecting edges through Canny method
 
-      Mat src = Imgcodecs.imread("src_e.png");
+      Mat src = Imgcodecs.imread("inside.png");
 
       Mat gray = new Mat();
 
@@ -77,7 +51,7 @@ public class Shapes
       Imgproc.Canny(gray, edges, 60, 60*3);
 
       Imgcodecs.imwrite("src_output.png", edges);
-      System.out.println("Image Loaded");
+      System.out.println(edges + " " + edges.size());
 
 
     } // end of main
