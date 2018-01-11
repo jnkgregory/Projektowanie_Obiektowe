@@ -11,6 +11,8 @@ import java.util.*;
 // http://opencvexamples.blogspot.com/2013/09/find-contour.html
 // https://stackoverflow.com/questions/18581633/fill-in-and-detect-contour-rectangles-in-java-opencv
 // http://answers.opencv.org/question/25755/drawing-bounding-box-in-java/
+// https://docs.opencv.org/3.4.0/d9/d8b/tutorial_py_contours_hierarchy.html
+// http://answers.opencv.org/question/97124/find-if-line-and-polygon-are-intersecting-in-java-opencv/
 
 public class Shapes
 {
@@ -79,8 +81,7 @@ public class Shapes
             Rect rect = Imgproc.boundingRect(points);
 
             // draw enclosing rectangle (all same color, but you could use variable i to make them unique)
-            Imgproc.rectangle(edges, new Point(rect.x,rect.y), new Point(rect.x+rect.width,rect.y+rect.height), new Scalar(120, 0, 255), 3); 
-
+            Imgproc.rectangle(edges, new Point(rect.x,rect.y), new Point(rect.x+rect.width,rect.y+rect.height), new Scalar(81, 190, 0), 3);
         }
         Imgcodecs.imwrite("src_output.png", edges);
 
