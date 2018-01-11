@@ -64,5 +64,21 @@ public class Shapes
                     new Scalar(20, 0, 0, 20),3);
 
         }
-    }
+
+    // Test of detecting edges through Canny method
+
+      Mat src = Imgcodecs.imread("src_e.png");
+
+      Mat gray = new Mat();
+
+      Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
+      Mat edges = new Mat();
+
+      Imgproc.Canny(gray, edges, 60, 60*3);
+
+      Imgcodecs.imwrite("src_output.png", edges);
+      System.out.println("Image Loaded");
+
+
+    } // end of main
 }
