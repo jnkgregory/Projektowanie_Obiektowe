@@ -99,7 +99,7 @@ public class Shapes
 
         // cornerHarris tests
 
-        Mat testImg = Imgcodecs.imread("ts.png");
+        Mat testImg = Imgcodecs.imread("inside.png");
         Mat grayImg = new Mat();
         Mat dstImg = new Mat();
         Mat grayFloat = new Mat();
@@ -114,7 +114,7 @@ public class Shapes
         
         Imgcodecs.imwrite("A.png", dstImg);
  
-        Imgproc.goodFeaturesToTrack(dstImg, corners, 50, 0.5, 3);
+        Imgproc.goodFeaturesToTrack(dstImg, corners, 50, 0.55, 3);
         System.out.println("[ Shapes ] INFO: corners size (wierzcholki): " + corners.size());
 
         for(int r = 0; r < corners.rows(); ++r)
