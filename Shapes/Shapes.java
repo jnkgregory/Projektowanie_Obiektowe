@@ -21,6 +21,8 @@ import java.util.*;
 // https://docs.opencv.org/3.2.0/dc/d0d/tutorial_py_features_harris.html
 // https://laxmaredy.blogspot.co.uk/2014/06/blog-post_6263.html
 // https://stackoverflow.com/questions/41413509/opencv-java-harris-corner-detection
+// http://answers.opencv.org/question/11571/getting-a-point-from-a-contour-opencv-android/
+// https://stackoverflow.com/questions/31746044/mat-to-matofpoint2f
 
 public class Shapes
 {
@@ -99,11 +101,12 @@ public class Shapes
 
         // cornerHarris tests
 
-        Mat testImg = Imgcodecs.imread("inside.png");
+        Mat testImg = Imgcodecs.imread("src_e.png");
         Mat grayImg = new Mat();
         Mat dstImg = new Mat();
         Mat grayFloat = new Mat();
         MatOfPoint corners = new MatOfPoint();
+        Mat circles = new Mat();
 
         Imgproc.cvtColor(testImg, grayImg, Imgproc.COLOR_BGR2GRAY);
         grayImg.convertTo(grayFloat, CvType.CV_32F);
@@ -114,6 +117,8 @@ public class Shapes
         
         Imgcodecs.imwrite("A.png", dstImg);
  
+        // Znajdowanie prostokatow.
+
         Imgproc.goodFeaturesToTrack(dstImg, corners, 50, 0.55, 3);
         System.out.println("[ Shapes ] INFO: corners size (wierzcholki): " + corners.size());
 
@@ -121,6 +126,9 @@ public class Shapes
             for(int c = 0; c < corners.cols(); ++c)
                 System.out.println("[ Shapes ] INFO: corner: " + corners.get(r, c)[0]);
 
+        Point [] cornersPoints = corners.toArray();
+        for(Point point : cornersPoints)
+            System.out.println(point);
 
     } // end of main
 }
