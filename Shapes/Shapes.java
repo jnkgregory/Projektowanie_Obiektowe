@@ -13,6 +13,7 @@ import java.util.*;
 // http://answers.opencv.org/question/25755/drawing-bounding-box-in-java/
 // https://docs.opencv.org/3.4.0/d9/d8b/tutorial_py_contours_hierarchy.html
 // http://answers.opencv.org/question/97124/find-if-line-and-polygon-are-intersecting-in-java-opencv/
+// https://stackoverflow.com/questions/16021832/using-method-convertto-in-opencv-java-wrapper
 
 // http://blog.ayoungprogrammer.com/2013/04/tutorial-detecting-multiple-rectangles.html/
 // https://docs.opencv.org/3.2.0/dc/d0d/tutorial_py_features_harris.html
@@ -97,13 +98,15 @@ public class Shapes
         Mat testImg = Imgcodecs.imread("ts.png");
         Mat grayImg = new Mat();
         Mat dstImg = new Mat();
+        Mat grayFloat = new Mat();
         Imgproc.cvtColor(testImg, grayImg, Imgproc.COLOR_BGR2GRAY);
+        grayImg.convertTo(grayFloat, CvType.CV_32F);
         
-        Imgproc.cornerHarris(grayImg, dstImg, 2, 3, 0.04);
+        Imgproc.cornerHarris(grayFloat, dstImg, 2, 3, 0.04);
         //Imgproc.dilate(grayImg, dstImg, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(25,25)));
         System.out.println("[ Shapes ] INFO: dst (corners): "+ dstImg.size());
         
-        Imgcodecs.imwrite("A.png", dstImg);
+        Imgcodecs.imwrite("A.png", grayFloat);
 
         
 
