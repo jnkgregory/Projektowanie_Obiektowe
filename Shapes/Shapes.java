@@ -106,7 +106,7 @@ public class Shapes
         //Imgproc.dilate(grayImg, dstImg, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(25,25)));
         System.out.println("[ Shapes ] INFO: dst (corners): "+ dstImg.size());
         
-        Imgcodecs.imwrite("A.png", grayFloat);
+        Imgcodecs.imwrite("A.png", dstImg);
 
         
 
