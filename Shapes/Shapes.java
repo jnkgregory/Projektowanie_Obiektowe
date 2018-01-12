@@ -101,7 +101,7 @@ public class Shapes
 
         // cornerHarris tests
 
-        Mat testImg = Imgcodecs.imread("src_e.png");
+        Mat testImg = Imgcodecs.imread("ts.png");
         Mat grayImg = new Mat();
         Mat dstImg = new Mat();
         Mat grayFloat = new Mat();
