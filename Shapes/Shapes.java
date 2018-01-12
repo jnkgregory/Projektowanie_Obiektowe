@@ -113,9 +113,13 @@ public class Shapes
         System.out.println("[ Shapes ] INFO: dst (corners): "+ dstImg.size());
         
         Imgcodecs.imwrite("A.png", dstImg);
-
-        Imgproc.goodFeaturesToTrack(dstImg, corners, 50, 0.01, 3);
+ 
+        Imgproc.goodFeaturesToTrack(dstImg, corners, 50, 0.5, 3);
         System.out.println("[ Shapes ] INFO: corners size (wierzcholki): " + corners.size());
+
+        for(int r = 0; r < corners.rows(); ++r)
+            for(int c = 0; c < corners.cols(); ++c)
+                System.out.println("[ Shapes ] INFO: corner: " + corners.get(r, c)[0]);
 
 
     } // end of main
