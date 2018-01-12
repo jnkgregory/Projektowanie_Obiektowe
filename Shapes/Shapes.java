@@ -14,6 +14,10 @@ import java.util.*;
 // https://docs.opencv.org/3.4.0/d9/d8b/tutorial_py_contours_hierarchy.html
 // http://answers.opencv.org/question/97124/find-if-line-and-polygon-are-intersecting-in-java-opencv/
 
+// http://blog.ayoungprogrammer.com/2013/04/tutorial-detecting-multiple-rectangles.html/
+// https://laxmaredy.blogspot.co.uk/2014/06/blog-post_6263.html
+// https://stackoverflow.com/questions/41413509/opencv-java-harris-corner-detection
+
 public class Shapes
 {
     public static void main(String[] args)
@@ -21,7 +25,7 @@ public class Shapes
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         System.out.println("\n[ Shapes ] Info: Start!\n");
     
-        String IMG_NAME = "i.png";
+        String IMG_NAME = "ts.png";
         String DEST_IMG = "src_output.png";
 
         // Edges detection through Canny + write result to output file.
@@ -38,7 +42,7 @@ public class Shapes
         System.out.println(edges + " | s: " + edges.size() + " | g: " + edges.get(1, 0)[0] + " | r: " + edges.rows() + " | c: " + edges.cols());
 
 
-        // Detecction using findContours on the output image from above.
+        // Detection using findContours on the output image from above.
 
         Mat img = Imgcodecs.imread(DEST_IMG, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
         Mat hierarchy = new Mat();
@@ -49,7 +53,7 @@ public class Shapes
         System.out.println("[ Shapes ] INFO: contours size: " + contours.size());
         for (int i = 0; i < contours.size(); ++i) 
         {
-            System.out.println(contours.get(i).getClass().getName() + ", " + contours.get(i).size());
+            System.out.println(contours.get(i).getClass().getName() + ", " + contours.get(i).size() + ", rows: " +contours.get(i).rows());
         }
 
         System.out.println("Hierarchy: " +hierarchy.size());
@@ -62,7 +66,7 @@ public class Shapes
             System.out.println(" ");
         }
 
-    
+
         MatOfPoint2f approxCurve = new MatOfPoint2f();
 
         //For each contour found
@@ -83,8 +87,25 @@ public class Shapes
             // draw enclosing rectangle (all same color, but you could use variable i to make them unique)
             Imgproc.rectangle(edges, new Point(rect.x,rect.y), new Point(rect.x+rect.width,rect.y+rect.height), new Scalar(81, 190, 0), 3);
         }
-        Imgcodecs.imwrite("src_output.png", edges);
+        //Imgcodecs.imwrite("src_output.png", edges);
+        System.out.println("[ Shapes ] INFO: edges size: " + edges.size());
+        Mat cnt = contours.get(0);
+        System.out.println("[ Shapes ] INFO: contours.get(0).contourArea() : " + Imgproc.contourArea(cnt));
 
+        // cornerHarris tests
+        Mat testImg = Imgcodecs.imread("square.png");
+        Mat grayImg = new Mat();
+        Mat dst = new Mat();
+        Imgproc.cvtColor(testImg, grayImg, Imgproc.COLOR_BGR2GRAY);
+        
+        
+        Imgproc.cornerHarris(gray, dst, 2, 3, 0.04);
+        //Imgproc.dilate(grayImg, dst,Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(25,25)));
+        System.out.println("[ Shapes ] INFO: dst (corners): "+ dst.size());
+        
+        Imgcodecs.imwrite("A.png", gray);
+
+        
 
     } // end of main
 }
