@@ -15,6 +15,8 @@ import java.util.*;
 // http://answers.opencv.org/question/97124/find-if-line-and-polygon-are-intersecting-in-java-opencv/
 // https://stackoverflow.com/questions/16021832/using-method-convertto-in-opencv-java-wrapper
 
+
+// https://media.readthedocs.org/pdf/opencv-java-tutorials/stable/opencv-java-tutorials.pdf
 // http://blog.ayoungprogrammer.com/2013/04/tutorial-detecting-multiple-rectangles.html/
 // https://docs.opencv.org/3.2.0/dc/d0d/tutorial_py_features_harris.html
 // https://laxmaredy.blogspot.co.uk/2014/06/blog-post_6263.html
@@ -94,11 +96,15 @@ public class Shapes
         Mat cnt = contours.get(0);
         System.out.println("[ Shapes ] INFO: contours.get(0).contourArea() : " + Imgproc.contourArea(cnt));
 
+
         // cornerHarris tests
+
         Mat testImg = Imgcodecs.imread("ts.png");
         Mat grayImg = new Mat();
         Mat dstImg = new Mat();
         Mat grayFloat = new Mat();
+        MatOfPoint corners = new MatOfPoint();
+
         Imgproc.cvtColor(testImg, grayImg, Imgproc.COLOR_BGR2GRAY);
         grayImg.convertTo(grayFloat, CvType.CV_32F);
         
@@ -108,7 +114,9 @@ public class Shapes
         
         Imgcodecs.imwrite("A.png", dstImg);
 
-        
+        Imgproc.goodFeaturesToTrack(dstImg, corners, 50, 0.01, 3);
+        System.out.println("[ Shapes ] INFO: corners size (wierzcholki): " + corners.size());
+
 
     } // end of main
 }
