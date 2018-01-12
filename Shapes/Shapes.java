@@ -94,17 +94,16 @@ public class Shapes
         System.out.println("[ Shapes ] INFO: contours.get(0).contourArea() : " + Imgproc.contourArea(cnt));
 
         // cornerHarris tests
-        Mat testImg = Imgcodecs.imread("square.png");
+        Mat testImg = Imgcodecs.imread("ts.png");
         Mat grayImg = new Mat();
-        Mat dst = new Mat();
+        Mat dstImg = new Mat();
         Imgproc.cvtColor(testImg, grayImg, Imgproc.COLOR_BGR2GRAY);
         
+        Imgproc.cornerHarris(grayImg, dstImg, 2, 3, 0.04);
+        //Imgproc.dilate(grayImg, dstImg, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(25,25)));
+        System.out.println("[ Shapes ] INFO: dst (corners): "+ dstImg.size());
         
-        Imgproc.cornerHarris(gray, dst, 2, 3, 0.04);
-        //Imgproc.dilate(grayImg, dst,Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(25,25)));
-        System.out.println("[ Shapes ] INFO: dst (corners): "+ dst.size());
-        
-        Imgcodecs.imwrite("A.png", gray);
+        Imgcodecs.imwrite("A.png", dstImg);
 
         
 
