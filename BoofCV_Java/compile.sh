@@ -1,0 +1,17 @@
+#!/bin/bash
+
+CURRENT_DIR=$(pwd)
+
+OPENCV_JAR="BoofCV.jar"
+SUFFIX_OPTIONS=":*;."
+COMPILER="javac -cp"
+COMPILED_FILES="*java"
+
+#FULL_COMPILE_CMD='${COMPILER} "${CURRENT_DIR}/${OPENCV_JAR}${SUFFIX_OPTIONS}:${CURRENT_DIR}/georegression.jar${SUFFIX_OPTIONS}" ${COMPILED_FILES}'
+FULL_COMPILE_CMD='${COMPILER} "${CURRENT_DIR}/*" ${COMPILED_FILES}'
+
+echo ""
+eval echo "[ compile.sh ] INFO: Running ${FULL_COMPILE_CMD}"
+echo ""
+
+eval ${FULL_COMPILE_CMD}
