@@ -23,6 +23,12 @@ import java.util.*;
 // https://stackoverflow.com/questions/41413509/opencv-java-harris-corner-detection
 // http://answers.opencv.org/question/11571/getting-a-point-from-a-contour-opencv-android/
 // https://stackoverflow.com/questions/31746044/mat-to-matofpoint2f
+// http://answers.opencv.org/question/75473/opencv-blob-detection-java-with-params/
+// http://answers.opencv.org/question/38885/how-to-detect-ellipse-and-get-centers-of-ellipse/
+// https://docs.opencv.org/2.4.1/doc/tutorials/imgproc/shapedescriptors/bounding_rotated_ellipses/bounding_rotated_ellipses.html
+// http://opencvexamples.blogspot.com/2013/10/fitting-rotated-boxes-and-ellipses-for.html
+
+// https://boofcv.org/index.php?title=Main_Page
 
 public class Shapes
 {
@@ -31,7 +37,7 @@ public class Shapes
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         System.out.println("\n[ Shapes ] Info: Start!\n");
     
-        String IMG_NAME = "ts.png";
+        String IMG_NAME = "tsi.png";
         String DEST_IMG = "src_output.png";
 
         // Edges detection through Canny + write result to output file.
@@ -73,6 +79,8 @@ public class Shapes
         }
 
 
+        // Test code
+
         MatOfPoint2f approxCurve = new MatOfPoint2f();
 
         //For each contour found
@@ -98,10 +106,12 @@ public class Shapes
         Mat cnt = contours.get(0);
         System.out.println("[ Shapes ] INFO: contours.get(0).contourArea() : " + Imgproc.contourArea(cnt));
 
+        // End of test code
 
-        // cornerHarris tests
 
-        Mat testImg = Imgcodecs.imread("ts.png");
+        // cornerHarris tests - wlasciwy kod programu.
+
+        Mat testImg = Imgcodecs.imread("tsi.png");
         Mat grayImg = new Mat();
         Mat dstImg = new Mat();
         Mat grayFloat = new Mat();
@@ -119,7 +129,7 @@ public class Shapes
  
         // Znajdowanie prostokatow.
 
-        Imgproc.goodFeaturesToTrack(dstImg, corners, 50, 0.55, 3);
+        Imgproc.goodFeaturesToTrack(dstImg, corners, 50, 0.35, 3);
         System.out.println("[ Shapes ] INFO: corners size (wierzcholki): " + corners.size());
 
         for(int r = 0; r < corners.rows(); ++r)
