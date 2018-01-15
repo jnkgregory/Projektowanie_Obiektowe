@@ -23,6 +23,12 @@ import java.util.*;
 // https://stackoverflow.com/questions/41413509/opencv-java-harris-corner-detection
 // http://answers.opencv.org/question/11571/getting-a-point-from-a-contour-opencv-android/
 // https://stackoverflow.com/questions/31746044/mat-to-matofpoint2f
+// http://answers.opencv.org/question/75473/opencv-blob-detection-java-with-params/
+// http://answers.opencv.org/question/38885/how-to-detect-ellipse-and-get-centers-of-ellipse/
+// https://docs.opencv.org/2.4.1/doc/tutorials/imgproc/shapedescriptors/bounding_rotated_ellipses/bounding_rotated_ellipses.html
+// http://opencvexamples.blogspot.com/2013/10/fitting-rotated-boxes-and-ellipses-for.html
+
+// https://boofcv.org/index.php?title=Main_Page
 
 public class Shapes
 {
