@@ -1,6 +1,8 @@
+import org.opencv.*;
 import org.opencv.imgproc.*;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.*;
+
 import java.util.*;
 
 
@@ -34,10 +36,15 @@ public class Shapes
 {
     public static void main(String[] args)
     {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        System.out.println("hello!");
+//System.out.println(System.getProperty("java.library.path"));
+
+	System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         System.out.println("\n[ Shapes ] Info: Start!\n");
-    
-        String IMG_NAME = "tsi.png";
+String imgsrc="11.png";    
+
+        String IMG_NAME = imgsrc;
+
         String DEST_IMG = "src_output.png";
 
         // Edges detection through Canny + write result to output file.
@@ -56,31 +63,177 @@ public class Shapes
 
         // Detection using findContours on the output image from above.
 
-        Mat img = Imgcodecs.imread(DEST_IMG, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
+        //Mat img = Imgcodecs.imread(DEST_IMG, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
+        Mat img = Imgcodecs.imread(imgsrc, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
         Mat hierarchy = new Mat();
         List<MatOfPoint> contours = new ArrayList<MatOfPoint>();      
         
-        Imgproc.findContours(img, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_NONE);
+//        Imgproc.findContours(img, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_NONE);
+        Imgproc.findContours(img, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE );
+List<Point> temp = null;
+List<Point> temp2 = null;
+List<Point> suspect = new LinkedList<Point>();
 
-        System.out.println("[ Shapes ] INFO: contours size: " + contours.size());
+double x;
+double y;
+double tx;
+double ty;
+double sx;
+double sy;
+
+//        System.out.println("[ Shapes ] INFO: contours size: " + contours.size());
+//        for (int i = 0; i < contours.size(); ++i) 
+//        {
+//            System.out.println(contours.get(i).getClass().getName() + ", " + contours.get(i).size() + ", rows: " +contours.get(i).rows());
+//        }
+
+
         for (int i = 0; i < contours.size(); ++i) 
         {
-            System.out.println(contours.get(i).getClass().getName() + ", " + contours.get(i).size() + ", rows: " +contours.get(i).rows());
+
+temp = contours.get(i).toList();
+System.out.println(temp.size());
+        for (int j = 0; j < temp.size(); ++j) 
+        {
+
+            x=temp.get(j).x;
+            y=temp.get(j).y;
+
+        for (int k = 0; k < temp.size(); ++k) 
+        {
+            tx=temp.get(k).x;
+            ty=temp.get(k).y;
+
+if((tx==x+1)&&(ty==y-1)){
+        for (int q = 0; q < contours.size(); ++q) 
+        {
+temp2 = contours.get(q).toList();
+        for (int s = 0; s < temp2.size(); ++s) 
+        {
+
+            sx=temp2.get(s).x;
+            sy=temp2.get(s).y;
+//System.out.println("p3["+sx+";"+sy+"]");
+if ((sx==x+2)&&(sy==ty+2)) { suspect.add(new Point(x+1,ty+1));}
+  }
+ }
+}
+
+if((tx==x+1)&&(ty==y+1)){
+        for (int q = 0; q < contours.size(); ++q) 
+        {
+
+temp2 = contours.get(q).toList();
+        for (int s = 0; s < temp2.size(); ++s) 
+        {
+
+            sx=temp2.get(s).x;
+            sy=temp2.get(s).y;
+if ((sx==x-1)&&(sy==ty+1)) { suspect.add(new Point(x,ty));}
+  }
+ }
+}
+
+if((tx==x-1)&&(ty==y+1)){
+        for (int q = 0; q < contours.size(); ++q) 
+        {
+
+temp2 = contours.get(q).toList();
+        for (int s = 0; s < temp2.size(); ++s) 
+        {
+
+            sx=temp2.get(s).x;
+            sy=temp2.get(s).y;
+if ((sx==x-2)&&(sy==ty-2)) { suspect.add(new Point(x-1,ty-1)); 
+
+}
+  }
+ }
+}
+
+if((tx==x-1)&&(ty==y-1)){
+        for (int q = 0; q < contours.size(); ++q) 
+        {
+
+temp2 = contours.get(q).toList();
+        for (int s = 0; s < temp2.size(); ++s) 
+        {
+
+            sx=temp2.get(s).x;
+            sy=temp2.get(s).y;
+if ((sx==x+1)&&(sy==ty-1)) { suspect.add(new Point(x,ty));}
+  }
+ }
+}
+
+/*
+System.out.println("&&&&&&&&&&");
+System.out.println("p1("+x+";"+y+")");
+System.out.println("p2("+tx+";"+ty+")");
+System.out.println("p3["+sx+";"+sy+"]");
+*/
+
+//System.out.println("!!!!!!!!!!!!!");
+//System.out.println("p3["+sx+";"+sy+"]");
+
+//if((x==tx+1)&&(y==ty-1)){temp.get(j).x=tx;temp.get(j).y=ty;}
+//if((x==tx+1)&&(y==ty-1)){temp.get(j).x=tx;temp.get(j).y=ty;}
+//if((x==tx+1)&&(y==ty-1)){temp.get(j).x=tx;temp.get(j).y=ty;}
+
+
+//System.out.println("!!!!!!!!!!!!!");
+//System.out.println("("+x+";"+y+")");
+//System.out.println("("+tx+";"+ty+")");
+
+
+        }//for k
+
+
+            //System.out.println(temp.get(j));
+            //System.out.println("("+x+";"+y+")");
+        }// for j
+
+
+        for (int j = 0; j < temp.size(); ++j) 
+        {
+            System.out.println(temp.get(j));
         }
+            //System.out.println(contours.get(i).getClass().getName() + ", " + contours.get(i).size() + ", rows: " +contours.get(i).rows());
+        }
+System.out.println("Suspects:");
+        for (int i = 0; i < suspect.size(); ++i) 
+        {
+            System.out.println(suspect.get(i));
+        }
+
+/*
+
+
+for(int i = 0; i < contours.size(); i++)
+  {
+    for(int j = 0; j < contours.get(i).size(); j++){
+
+System.out.println( "x:" + contours[i][j].x + " y:" + contours[i][j].y );
+}
+// cout << contours[i][j].x << "x" << contours[i][j].y << " ";
+  }
+/*
 
         System.out.println("Hierarchy: " +hierarchy.size());
         for(int i = 0; i < hierarchy.rows(); ++i)
         {
             for(int j = 0; j < hierarchy.cols(); ++j)
             {
-                System.out.print(hierarchy.get(i,j)[0]);
+                System.out.println(hierarchy.get(i,j)[0]);
             }
             System.out.println(" ");
         }
 
+//System.out.println(contours);
+
 
         // Test code
-
+/*
         MatOfPoint2f approxCurve = new MatOfPoint2f();
 
         //For each contour found
@@ -105,13 +258,13 @@ public class Shapes
         System.out.println("[ Shapes ] INFO: edges size: " + edges.size());
         Mat cnt = contours.get(0);
         System.out.println("[ Shapes ] INFO: contours.get(0).contourArea() : " + Imgproc.contourArea(cnt));
-
+*/
         // End of test code
-
+/*
 
         // cornerHarris tests - wlasciwy kod programu.
 
-        Mat testImg = Imgcodecs.imread("tsi.png");
+        Mat testImg = Imgcodecs.imread(imgsrc);
         Mat grayImg = new Mat();
         Mat dstImg = new Mat();
         Mat grayFloat = new Mat();
@@ -139,6 +292,6 @@ public class Shapes
         Point [] cornersPoints = corners.toArray();
         for(Point point : cornersPoints)
             System.out.println(point);
-
+*/
     } // end of main
 }
