@@ -32,6 +32,8 @@ import java.util.*;
 
 // https://boofcv.org/index.php?title=Main_Page
 
+
+
 public class Shapes
 {
     public static void main(String[] args)
@@ -41,7 +43,7 @@ public class Shapes
 
 	System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         System.out.println("\n[ Shapes ] Info: Start!\n");
-String imgsrc="11.png";    
+String imgsrc="4.png";    
 
         String IMG_NAME = imgsrc;
 
@@ -199,12 +201,111 @@ System.out.println("p3["+sx+";"+sy+"]");
             System.out.println(temp.get(j));
         }
             //System.out.println(contours.get(i).getClass().getName() + ", " + contours.get(i).size() + ", rows: " +contours.get(i).rows());
-        }
+        }// for i
 System.out.println("Suspects:");
         for (int i = 0; i < suspect.size(); ++i) 
         {
             System.out.println(suspect.get(i));
         }
+
+
+
+//movies.forEach(System.out::println);
+
+Collections.sort(suspect,new Comparator<Point>() {
+public int compare(Point o1, Point o2) {
+    return Double.compare(o1.y, o2.y);
+}
+});
+
+System.out.println("Suspects Y:");
+        for (int i = 0; i < suspect.size(); ++i) 
+        {
+            System.out.println(suspect.get(i));
+        }
+
+
+Collections.sort(suspect,new Comparator<Point>() {
+public int compare(Point o1, Point o2) {
+    return Double.compare(o1.x, o2.x);
+}
+});
+
+
+System.out.println("Suspects X:");
+        for (int i = 0; i < suspect.size(); ++i) 
+        {
+            System.out.println(suspect.get(i));
+        }
+Point p1=null;
+Point p2=null;
+Point p3=null;
+Point p4=null;
+int i=0;
+int j=0;
+int k=0;
+int l=0;
+List<Integer> helper = new ArrayList<Integer>();
+int size=suspect.size();
+
+while (i < size){
+	p1=suspect.get(i);
+	while (j < size){
+		if((p1.y!=suspect.get(j).y)&&(p1.x==suspect.get(j).x)){
+		p2=suspect.get(j);
+		while (k < size){
+//System.out.println("k");
+			if((p2.y==suspect.get(k).y)&&(p2.x!=suspect.get(k).x)){
+//System.out.println("l fou");
+			p3=suspect.get(k);
+//System.out.println(i +" "+ j +" "+ k +" "+ l );
+			while (l < size){
+//System.out.println("l");
+				if( (p1.y==suspect.get(l).y)&&(p3.x==suspect.get(l).x) ){
+				p4=suspect.get(l);
+System.out.println("flush");
+System.out.println("p1:"+p1);
+System.out.println("p2:"+p2);
+System.out.println("p3:"+p3);
+System.out.println("p4:"+p4);
+
+helper = Arrays.asList(i, j, k, l);
+
+        Collections.sort(helper, Collections.reverseOrder());
+
+        for(int m=0; m<helper.size();m++ )
+        {
+            suspect.remove(helper.get(m));
+System.out.println("rem " +m);
+        }
+
+//suspect.remove(l);
+//suspect.remove(k);
+//suspect.remove(j);
+//suspect.remove(i);
+//i=-1;
+//j=-1;
+//k=-1;
+//l=-1;
+
+
+				}
+			l++;		
+			}
+			}
+		k++;
+		}
+		}
+	j++;
+	}
+i++;
+size=suspect.size();
+System.out.println(size);
+}
+
+size=suspect.size();
+System.out.println(" "+size);
+
 
 /*
 
@@ -295,3 +396,84 @@ System.out.println( "x:" + contours[i][j].x + " y:" + contours[i][j].y );
 */
     } // end of main
 }
+
+/*
+
+4
+{148.0, 177.0}
+{148.0, 233.0}
+{268.0, 233.0}
+{268.0, 177.0}
+4
+{148.0, 118.0}
+{148.0, 175.0}
+{268.0, 175.0}
+{268.0, 118.0}
+10
+{70.0, 60.0}
+{70.0, 175.0}
+{146.0, 175.0}
+{146.0, 117.0}
+{147.0, 116.0}
+{269.0, 116.0}
+{270.0, 117.0}
+{270.0, 175.0}
+{299.0, 175.0}
+{299.0, 60.0}
+14
+{68.0, 59.0}
+{69.0, 58.0}
+{300.0, 58.0}
+{301.0, 59.0}
+{301.0, 176.0}
+{300.0, 177.0}
+{270.0, 177.0}
+{270.0, 234.0}
+{269.0, 235.0}
+{147.0, 235.0}
+{146.0, 234.0}
+{146.0, 177.0}
+{69.0, 177.0}
+{68.0, 176.0}
+4
+{0.0, 0.0}
+{0.0, 289.0}
+{386.0, 289.0}
+{386.0, 0.0}
+
+
+
+Suspects:
+{147.0, 117.0}
+{269.0, 117.0}
+{69.0, 59.0}
+{300.0, 59.0}
+{300.0, 176.0}
+{269.0, 234.0}
+{147.0, 234.0}
+{69.0, 176.0}
+Suspects Y:
+{69.0, 59.0}
+{300.0, 59.0}
+{147.0, 117.0}
+{269.0, 117.0}
+{300.0, 176.0}
+{69.0, 176.0}
+{269.0, 234.0}
+{147.0, 234.0}
+Suspects X:
+{69.0, 59.0}
+{69.0, 176.0}
+{147.0, 117.0}
+{147.0, 234.0}
+{269.0, 117.0}
+{269.0, 234.0}
+{300.0, 59.0}
+{300.0, 176.0}
+
+
+
+
+*/
+
+
