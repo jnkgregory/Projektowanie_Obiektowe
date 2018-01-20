@@ -39,6 +39,7 @@ public class Shapes
     public static void main(String[] args)
     {
         System.out.println("hello!");
+        /*
 //System.out.println(System.getProperty("java.library.path"));
 
 	System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -72,9 +73,72 @@ String imgsrc="4.png";
         
 //        Imgproc.findContours(img, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_NONE);
         Imgproc.findContours(img, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE );
+        */
+        
+//TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+       
+
+       LinkedList<Point> L1 = new LinkedList<Point>();
+       LinkedList<Point> L2 = new LinkedList<Point>();
+       LinkedList<Point> L3 = new LinkedList<Point>();
+       LinkedList<Point> L4 = new LinkedList<Point>();
+       LinkedList<Point> L5 = new LinkedList<Point>();
+
+L1.add(new Point(148.0, 177.0));
+L1.add(new Point(148.0, 233.0));
+L1.add(new Point(268.0, 233.0));
+L1.add(new Point(268.0, 177.0));
+
+L2.add(new Point(148.0, 118.0));
+L2.add(new Point(148.0, 175.0));
+L2.add(new Point(268.0, 175.0));
+L2.add(new Point(268.0, 118.0));
+
+L3.add(new Point(70.0, 60.0));
+L3.add(new Point(70.0, 175.0));
+L3.add(new Point(146.0, 175.0));
+L3.add(new Point(146.0, 117.0));
+L3.add(new Point(147.0, 116.0));
+L3.add(new Point(269.0, 116.0));
+L3.add(new Point(270.0, 117.0));
+L3.add(new Point(270.0, 175.0));
+L3.add(new Point(299.0, 175.0));
+L3.add(new Point(299.0, 60.0));
+
+L4.add(new Point(68.0, 59.0));
+L4.add(new Point(69.0, 58.0));
+L4.add(new Point(300.0, 58.0));
+L4.add(new Point(301.0, 59.0));
+L4.add(new Point(301.0, 176.0));
+L4.add(new Point(300.0, 177.0));
+L4.add(new Point(270.0, 177.0));
+L4.add(new Point(270.0, 234.0));
+L4.add(new Point(269.0, 235.0));
+L4.add(new Point(147.0, 235.0));
+L4.add(new Point(146.0, 234.0));
+L4.add(new Point(146.0, 177.0));
+L4.add(new Point(69.0, 177.0));
+L4.add(new Point(68.0, 176.0));
+
+L5.add(new Point(0.0, 0.0));
+L5.add(new Point(0.0, 289.0));
+L5.add(new Point(386.0, 289.0));
+L5.add(new Point(386.0, 0.0));
+       
+       ArrayList<LinkedList<Point>> contours = new ArrayList<LinkedList<Point>>();       
+       
+contours.add(L1);
+contours.add(L2);
+contours.add(L3);
+contours.add(L4);
+contours.add(L5);       
+//TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+
+       
 List<Point> temp = null;
 List<Point> temp2 = null;
 List<Point> suspect = new LinkedList<Point>();
+List<Rectangle> rectangles = new LinkedList<Rectangle>();
 
 double x;
 double y;
@@ -82,6 +146,11 @@ double tx;
 double ty;
 double sx;
 double sy;
+
+Point p1=new Point(0.0,0.0);
+Point p2=new Point(0.0,0.0);
+Point p3=new Point(0.0,0.0);
+Point p4=new Point(0.0,0.0);
 
 //        System.out.println("[ Shapes ] INFO: contours size: " + contours.size());
 //        for (int i = 0; i < contours.size(); ++i) 
@@ -93,8 +162,60 @@ double sy;
         for (int i = 0; i < contours.size(); ++i) 
         {
 
-temp = contours.get(i).toList();
+temp = contours.get(i);//.toList();
 System.out.println(temp.size());
+
+if(temp.size()==4) {
+
+Collections.sort(temp,new Comparator<Point>() {
+public int compare(Point o1, Point o2) {
+    return Double.compare(o1.y, o2.y);
+}
+});
+Collections.sort(temp,new Comparator<Point>() {
+public int compare(Point o1, Point o2) {
+    return Double.compare(o1.x, o2.x);
+}
+});
+
+
+p1.x=temp.get(0).x;
+p1.y=temp.get(0).y;
+
+if ((p1.x!=0.0)&&(p1.y!=0.0)){
+
+p1.x=p1.x-1;
+p1.y=p1.y-1;
+
+p2.x=temp.get(1).x;
+p2.y=temp.get(1).y;
+
+p2.x=p2.x-1;
+p2.y=p2.y+1;
+
+p3.x=temp.get(3).x;
+p3.y=temp.get(3).y;
+
+p3.x=p3.x+1;
+p3.y=p3.y+1;
+
+p4.x=temp.get(2).x;
+p4.y=temp.get(2).y;
+
+p4.x=p4.x+1;
+p4.y=p4.y-1;
+
+rectangles.add(new Rectangle(p1,p2,p3,p4));
+p1=new Point(0.0,0.0);
+p2=new Point(0.0,0.0);
+p3=new Point(0.0,0.0);
+p4=new Point(0.0,0.0);
+}
+
+}
+
+else{
+
         for (int j = 0; j < temp.size(); ++j) 
         {
 
@@ -109,14 +230,15 @@ System.out.println(temp.size());
 if((tx==x+1)&&(ty==y-1)){
         for (int q = 0; q < contours.size(); ++q) 
         {
-temp2 = contours.get(q).toList();
+temp2 = contours.get(q);//.toList();
         for (int s = 0; s < temp2.size(); ++s) 
         {
 
             sx=temp2.get(s).x;
             sy=temp2.get(s).y;
 //System.out.println("p3["+sx+";"+sy+"]");
-if ((sx==x+2)&&(sy==ty+2)) { suspect.add(new Point(x+1,ty+1));}
+
+if ((sx==x+2)&&(sy==ty+2)) {System.out.println("sus"); suspect.add(new Point(x+1,ty+1));}
   }
  }
 }
@@ -125,13 +247,13 @@ if((tx==x+1)&&(ty==y+1)){
         for (int q = 0; q < contours.size(); ++q) 
         {
 
-temp2 = contours.get(q).toList();
+temp2 = contours.get(q);//.toList();
         for (int s = 0; s < temp2.size(); ++s) 
         {
 
             sx=temp2.get(s).x;
             sy=temp2.get(s).y;
-if ((sx==x-1)&&(sy==ty+1)) { suspect.add(new Point(x,ty));}
+if ((sx==x-1)&&(sy==ty+1)) {System.out.println("sus"); suspect.add(new Point(x,ty));}
   }
  }
 }
@@ -140,13 +262,13 @@ if((tx==x-1)&&(ty==y+1)){
         for (int q = 0; q < contours.size(); ++q) 
         {
 
-temp2 = contours.get(q).toList();
+temp2 = contours.get(q);//.toList();
         for (int s = 0; s < temp2.size(); ++s) 
         {
 
             sx=temp2.get(s).x;
             sy=temp2.get(s).y;
-if ((sx==x-2)&&(sy==ty-2)) { suspect.add(new Point(x-1,ty-1)); 
+if ((sx==x-2)&&(sy==ty-2)) {System.out.println("sus"); suspect.add(new Point(x-1,ty-1)); 
 
 }
   }
@@ -157,13 +279,13 @@ if((tx==x-1)&&(ty==y-1)){
         for (int q = 0; q < contours.size(); ++q) 
         {
 
-temp2 = contours.get(q).toList();
+temp2 = contours.get(q);//.toList();
         for (int s = 0; s < temp2.size(); ++s) 
         {
 
             sx=temp2.get(s).x;
             sy=temp2.get(s).y;
-if ((sx==x+1)&&(sy==ty-1)) { suspect.add(new Point(x,ty));}
+if ((sx==x+1)&&(sy==ty-1)) {System.out.println("sus"); suspect.add(new Point(x,ty));}
   }
  }
 }
@@ -195,7 +317,7 @@ System.out.println("p3["+sx+";"+sy+"]");
             //System.out.println("("+x+";"+y+")");
         }// for j
 
-
+}
         for (int j = 0; j < temp.size(); ++j) 
         {
             System.out.println(temp.get(j));
@@ -237,15 +359,12 @@ System.out.println("Suspects X:");
         {
             System.out.println(suspect.get(i));
         }
-Point p1=null;
-Point p2=null;
-Point p3=null;
-Point p4=null;
+
 int i=0;
 int j=0;
 int k=0;
 int l=0;
-List<Integer> helper = new ArrayList<Integer>();
+
 int size=suspect.size();
 
 while (i < size){
@@ -258,38 +377,30 @@ while (i < size){
 			if((p2.y==suspect.get(k).y)&&(p2.x!=suspect.get(k).x)){
 //System.out.println("l fou");
 			p3=suspect.get(k);
-//System.out.println(i +" "+ j +" "+ k +" "+ l );
+//System.out.println(i +" "+ j +" "+ k +" "+ l +" "+ size +" "+ suspect.size());
 			while (l < size){
 //System.out.println("l");
 				if( (p1.y==suspect.get(l).y)&&(p3.x==suspect.get(l).x) ){
 				p4=suspect.get(l);
-System.out.println("flush");
-System.out.println("p1:"+p1);
-System.out.println("p2:"+p2);
-System.out.println("p3:"+p3);
-System.out.println("p4:"+p4);
 
-helper = Arrays.asList(i, j, k, l);
 
-        Collections.sort(helper, Collections.reverseOrder());
+rectangles.add(new Rectangle(p1,p2,p3,p4));
 
-        for(int m=0; m<helper.size();m++ )
-        {
-            suspect.remove(helper.get(m));
-System.out.println("rem " +m);
-        }
-
+suspect.remove(p1);
+suspect.remove(p2);
+suspect.remove(p3);
+suspect.remove(p4);
 //suspect.remove(l);
 //suspect.remove(k);
 //suspect.remove(j);
 //suspect.remove(i);
-//i=-1;
-//j=-1;
-//k=-1;
-//l=-1;
+i=-1;
+j=size;
+k=size;
+l=size;
 
 
-				}
+}
 			l++;		
 			}
 			}
@@ -299,103 +410,63 @@ System.out.println("rem " +m);
 	j++;
 	}
 i++;
+j=0;
+k=0;
+l=0;
 size=suspect.size();
-System.out.println(size);
 }
 
-size=suspect.size();
-System.out.println(" "+size);
+System.out.println("----");
+System.out.println("----");
+System.out.println("----");
 
+double vx=10.0;
+double vy=-10.0;
 
-/*
+rectangles.get(1).move(vx,vy);
 
-
-for(int i = 0; i < contours.size(); i++)
-  {
-    for(int j = 0; j < contours.get(i).size(); j++){
-
-System.out.println( "x:" + contours[i][j].x + " y:" + contours[i][j].y );
-}
-// cout << contours[i][j].x << "x" << contours[i][j].y << " ";
-  }
-/*
-
-        System.out.println("Hierarchy: " +hierarchy.size());
-        for(int i = 0; i < hierarchy.rows(); ++i)
+        for (int m = 0; m < rectangles.size(); ++m) 
         {
-            for(int j = 0; j < hierarchy.cols(); ++j)
-            {
-                System.out.println(hierarchy.get(i,j)[0]);
-            }
-            System.out.println(" ");
+        System.out.println("Prostokąt nr "+m+":");
+            rectangles.get(m).printRec();
         }
 
-//System.out.println(contours);
 
-
-        // Test code
-/*
-        MatOfPoint2f approxCurve = new MatOfPoint2f();
-
-        //For each contour found
-        for (int i=0; i<contours.size(); i++)
+        for (int m = 0; m < rectangles.size(); ++m) 
         {
-            //Convert contours(i) from MatOfPoint to MatOfPoint2f
-            MatOfPoint2f contour2f = new MatOfPoint2f( contours.get(i).toArray() );
-            //Processing on mMOP2f1 which is in type MatOfPoint2f
-            double approxDistance = Imgproc.arcLength(contour2f, true)*0.02;
-            Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
-
-            //Convert back to MatOfPoint
-            MatOfPoint points = new MatOfPoint( approxCurve.toArray() );
-
-            // Get bounding rect of contour
-            Rect rect = Imgproc.boundingRect(points);
-
-            // draw enclosing rectangle (all same color, but you could use variable i to make them unique)
-            Imgproc.rectangle(edges, new Point(rect.x,rect.y), new Point(rect.x+rect.width,rect.y+rect.height), new Scalar(81, 190, 0), 3);
+        for (int n = 0; n < rectangles.size(); ++n) 
+        {
+        if(m!=n){
+        System.out.println("Prostokąty nr "+m+" i nr "+n+" :");
+            rectangles.get(m).judge(rectangles.get(n));
         }
-        //Imgcodecs.imwrite("src_output.png", edges);
-        System.out.println("[ Shapes ] INFO: edges size: " + edges.size());
-        Mat cnt = contours.get(0);
-        System.out.println("[ Shapes ] INFO: contours.get(0).contourArea() : " + Imgproc.contourArea(cnt));
-*/
-        // End of test code
-/*
+        }
+System.out.println();
+        }
 
-        // cornerHarris tests - wlasciwy kod programu.
 
-        Mat testImg = Imgcodecs.imread(imgsrc);
-        Mat grayImg = new Mat();
-        Mat dstImg = new Mat();
-        Mat grayFloat = new Mat();
-        MatOfPoint corners = new MatOfPoint();
-        Mat circles = new Mat();
 
-        Imgproc.cvtColor(testImg, grayImg, Imgproc.COLOR_BGR2GRAY);
-        grayImg.convertTo(grayFloat, CvType.CV_32F);
-        
-        Imgproc.cornerHarris(grayFloat, dstImg, 2, 3, 0.04);
-        //Imgproc.dilate(grayImg, dstImg, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(25,25)));
-        System.out.println("[ Shapes ] INFO: dst (corners): "+ dstImg.size());
-        
-        Imgcodecs.imwrite("A.png", dstImg);
- 
-        // Znajdowanie prostokatow.
 
-        Imgproc.goodFeaturesToTrack(dstImg, corners, 50, 0.35, 3);
-        System.out.println("[ Shapes ] INFO: corners size (wierzcholki): " + corners.size());
 
-        for(int r = 0; r < corners.rows(); ++r)
-            for(int c = 0; c < corners.cols(); ++c)
-                System.out.println("[ Shapes ] INFO: corner: " + corners.get(r, c)[0]);
 
-        Point [] cornersPoints = corners.toArray();
-        for(Point point : cornersPoints)
-            System.out.println(point);
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
     } // end of main
 }
+
+
+
 
 /*
 
