@@ -80,7 +80,7 @@ if(temp.size()==4) {
 
         for (int j = 0; j < temp.size(); ++j) 
         {
-            System.out.println(temp.get(j));
+            //System.out.println(temp.get(j));
         }
 
 
@@ -375,7 +375,7 @@ size=suspect.size();
 
 
 //ELI
-/*
+
 Iterator<Point> it = null;
 
 
@@ -402,15 +402,47 @@ it.remove();
 }
 }
 
-        
+int pointsLeft=0;
+    
+            for (int m = 0; m < contours.size(); ++m) 
+        {
+
+pointsLeft=pointsLeft+contours.get(m).size();
+
+
+
+}
+double a1=0.0;
+double a2=999999.0;
+double b1=0.0;
+double b2=999999.0;
+    
+        if( pointsLeft > 50 ){
         for (int m = 0; m < contours.size(); ++m) 
         {
 
-temp = contours.get(m);//.toList();
-//System.out.println(temp.size());
+temp = contours.get(m);
+
+        for (int n = 0; n < temp.size(); ++n) 
+        {
+            if(temp.get(j).x < a1) a1 = temp.get(j).x;
+            if(temp.get(j).x > a2) a2 = temp.get(j).x;            
+            if(temp.get(j).y < b1) b1 = temp.get(j).y;            
+            if(temp.get(j).y > b2) b2 = temp.get(j).y;
+
+            
+        }
+        }
+Elipsa eli = new Elipsa(a1,a2,b1,b2);
+
+        for (int m = 0; m < rectangles.size(); ++m) 
+        {
+        System.out.println("Elipsa i prostokąt nr "+m+":");
+            rectangles.get(m).judgeEli(eli);
+        }
 
 }
-*/
+
 //ELI
 
 
