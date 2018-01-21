@@ -87,7 +87,61 @@ System.out.println("przecinają się");
 
 }
 
+public void judgeEli(Elipsa e){
 
+if(
+(this.p1.x > e.a2.x)||
+(this.p3.x < e.a1.x)||
+(this.p4.y > e.a2.y)||
+(this.p2.y < e.a1.y)
+){
+System.out.println("są rozłączne");
+}
+
+else if(
+(this.p1.x <= e.a1.x)&&
+(this.p2.y >= e.b1.y)&&
+(this.p3.x >= e.a2.x)&&
+(this.p4.y <= e.b2.y)
+){
+System.out.println("prostokąt zawiera elipsę");
+}
+
+else if(
+(this.p1.x >= e.a1.x)&&
+(this.p2.y <= e.b1.y)&&
+(this.p3.x <= e.a2.x)&&
+(this.p4.y >= e.b2.y)
+){
+System.out.println("elipsa zawiera prostokąt");
+}
+
+else if(
+(this.p1.x == e.a2.x)||
+(this.p3.x == e.a1.x)||
+(this.p4.y == e.b2.y)||
+(this.p2.y == e.b1.y)
+){
+System.out.println("są styczne");
+}
+
+if(
+(this.p1.x > e.a2.x)||
+(this.p3.x < e.a1.x)||
+(this.p4.y > e.a2.y)||
+(this.p2.y < e.a1.y)
+){
+System.out.println("są rozłączne");
+}
+
+if(
+(this.p1.x-e.f1)
+
+){
+System.out.println("są rozłączne");
+}
+
+}
 
 
 
