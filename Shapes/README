@@ -1,0 +1,14 @@
+Wymagania:
+- Program do działania potrzebuje bibliotek .jar i .so, które znajdują się na repozytorium 
+  (uwaga, biblioteka .so zajmuje > 70 MB).
+
+Wymagania dotyczące obrazków:
+- czarne tło,
+- białe kontury, grubości 1 pixel,
+- program działa optymalnie przy max. 1 elipsie na obrazku.
+
+Działanie:
+- Kompilacja:
+./compile.sh
+- Uruchamianie:
+./run.sh
